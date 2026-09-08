@@ -1,6 +1,8 @@
 +++
 template = "misc.html"
 weight = 100
+title = "Legal Information"
+description = "Legal, privacy, licensing, hosting, and trademark information for the Rust Language Cheat Sheet."
 +++
 
 

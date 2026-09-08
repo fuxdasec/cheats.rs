@@ -5,7 +5,7 @@
 [![Read Online](/gfx/button_read-online2.png)](https://cheats.rs)
 [![PDF](/gfx/button_cached-pdf2.png)](https://cheats.rs/dl/rust_cheat_sheet_a4.pdf)
 
-**A single-page Rust resource for people who like high information density.**
+**A Rust reference for people who like high information density.**
 
 Use cases, in order of priority:
 * **identification & lookup guide** for constructs encountered in code,
@@ -22,6 +22,33 @@ zola serve
 ```
 
 
+## Checking the generated site
+
+Validate the audited content hashes before building, then validate the route tree, SEO metadata, sitemap, internal links, and legacy fragments after `zola build` and `npm run posthtml`:
+
+```
+npm run check:content
+npm run check:site
+```
+
+Regenerate the 1200×630 social preview after intentionally changing its design with `npm run social-card`.
+
+With dependencies installed (`npm install` and `npx playwright install chromium firefox`), serve `public` over HTTP and run:
+
+```
+npm run check:reading -- http://127.0.0.1:1111
+```
+
+The browser checks visit every published URL at mobile, tablet, and desktop widths in Chromium and Firefox. They also cover the Sections menu, tabs, reading settings, previous/next navigation, legacy URL migration, and print styles. Test requests to the feedback API and playground use local fixtures.
+
+To reproduce the final CI package after a fresh `zola build`, package and serve `public.clean`, run the browser checks against that server, and finish with:
+
+```
+npm run pdf
+npm run check:site -- public.clean --final
+```
+
+The PDF command generates the A4 and Letter downloads and removes the private `/_print/` source before the final artifact check.
 
 # Contributing
 

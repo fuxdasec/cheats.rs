@@ -1,4 +1,7 @@
 # The URL the site will be built for
 base_url = "https://cheats.rs"
 title = "Rust Language Cheat Sheet"
+description = "A focused Rust reference for syntax, types, memory layout, the standard library, tooling, and coding practices."
 compile_sass = true
+generate_sitemap = true
+generate_robots_txt = true

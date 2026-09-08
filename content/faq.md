@@ -1,6 +1,8 @@
 +++
 template = "misc.html"
 weight = 100
+title = "FAQ"
+description = "Frequently asked questions about the Rust Language Cheat Sheet, its audience, operation, and content."
 +++
 
 # FAQ
@@ -66,11 +68,14 @@ The pentagram has spoken. The pentagram stays.
 
 ### How can I build an offline copy?
 
-On Linux & macOS the following command should work. For Windows you have to adapt `$PWD` accordingly:
+Build the site, then serve the generated pages over HTTP:
 
 ```
-zola build --base-url="$PWD/public/index.html" --output-dir="$PWD/public"
+zola build
+python3 -m http.server 8000 --directory public
 ```
+
+Open `http://127.0.0.1:8000/`. On Windows, use `python` instead of `python3` if needed.
 
 
 ### How can I see what the deployed version is?

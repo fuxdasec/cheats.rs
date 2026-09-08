@@ -26,8 +26,25 @@ jobs:
     - name: Postprocess - Run Scripts
       run: |
         bash ./scripts/ci_fix_permissions.sh
+        npm run check:content
         bash ./scripts/ci_pack_public.sh
+        npm run check:site -- public.clean
+        python3 -m http.server 4173 --directory public.clean &
+        SERVER_PID=$!
+        trap 'kill $SERVER_PID' EXIT
+        for attempt in $(seq 1 30); do
+          curl --fail --silent http://127.0.0.1:4173/ >/dev/null && break
+          sleep 1
+        done
+        curl --fail --silent http://127.0.0.1:4173/ >/dev/null
+        npm run check:reading -- http://127.0.0.1:4173
+        kill $SERVER_PID
+        trap - EXIT
         npm run pdf
+        test ! -d public.clean/_print
+        test -s public.clean/dl/rust_cheat_sheet_a4.pdf
+        test -s public.clean/dl/rust_cheat_sheet_letter.pdf
+        npm run check:site -- public.clean --final
     - name: Upload S3
       uses: shallwefootball/upload-s3-action@v1.3.3
       with:

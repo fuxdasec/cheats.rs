@@ -2,7 +2,11 @@
   "name": "cheats.rs",
   "scripts": {
     "posthtml": "cd public && npx posthtml -c ../.posthtmlrc && node ../scripts/postprocess.js",
-    "pdf": "node ./scripts/pdf.js"
+    "pdf": "node ./scripts/pdf.js",
+    "social-card": "node ./scripts/generate-social-card.js",
+    "check:content": "node ./scripts/check-content.js",
+    "check:site": "node ./scripts/check-site.js",
+    "check:reading": "node ./scripts/check-reading.js"
   },
   "private": true,
   "dependencies": {

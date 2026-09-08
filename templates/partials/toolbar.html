@@ -1,0 +1,23 @@
+<noprint>
+<div class="reading-toolbar" data-nosnippet>
+    <details class="section-menu">
+        <summary>Sections</summary>
+        <nav class="section-panel" aria-label="Sections">
+            {% set home = get_section(path="_index.md") %}
+            <div class="global-sections">
+            {% for subsection_path in home.subsections %}
+                {% set category = get_section(path=subsection_path) %}
+                <section>
+                    <a class="category-link" href="{{ category.path }}">{{ category.title }}</a>
+                    <ul>{% for item in category.pages %}<li><a href="{{ item.path }}">{{ item.title }}</a></li>{% endfor %}</ul>
+                </section>
+            {% endfor %}
+            </div>
+        </nav>
+    </details>
+    <div class="reading-actions">
+        <button type="button" id="toggle_night_mode" onclick="toggle_night_mode()" aria-pressed="false">Night mode</button>
+        <button type="button" id="toggle_ligatures" onclick="toggle_ligatures()" aria-pressed="false">Ligatures</button>
+    </div>
+</div>
+</noprint>

@@ -4,7 +4,6 @@
         "posthtml-img-autosize" : {
             processEmptySize: true
         },
-        "posthtml-inline-assets": {},
         "htmlnano": {
             collapseWhitespace: false,
         },

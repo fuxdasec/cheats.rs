@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="{% block description %}{{ config.description }}{% endblock description %}">
+<title>{% block title %}{{ config.title }}{% endblock title %}</title>
+<link rel="canonical" href="{% block canonical %}{{ config.base_url }}/{% endblock canonical %}">
+<meta property="og:type" content="website"><meta property="og:site_name" content="{{ config.title }}">
+<meta property="og:title" content="{% block og_title %}{{ config.title }}{% endblock og_title %}"><meta property="og:description" content="{% block og_description %}{{ config.description }}{% endblock og_description %}"><meta property="og:url" content="{% block og_url %}{{ config.base_url }}/{% endblock og_url %}"><meta property="og:image" content="{{ config.base_url }}/social-card.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Rust Language Cheat Sheet">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{% block twitter_title %}{{ config.title }}{% endblock twitter_title %}"><meta name="twitter:description" content="{% block twitter_description %}{{ config.description }}{% endblock twitter_description %}"><meta name="twitter:image" content="{{ config.base_url }}/social-card.png"><meta name="twitter:image:alt" content="Rust Language Cheat Sheet">
+<link rel="icon" type="image/png" href="/favicon32.png"><link rel="stylesheet" href="/font-opensans.css"><link rel="stylesheet" href="/font-firacode.css"><link rel="stylesheet" href="/main.css">
+{% block structured_data %}{% endblock structured_data %}
+</head><body>
+<a class="skip-link" href="#main-content">Skip to content</a>
+<noprint><div class="hide_on_small"><a class="noprint" href="https://github.com/ralfbiedert/cheats.rs/"><img class="github-ribbon" src="/forkme_right_gray.png" alt="Fork me on GitHub"></a></div></noprint>
+<div class="page"><div class="page__content">{% include "partials/toolbar.html" %}<main class="book-content" id="main-content" tabindex="-1">{% block content %}{% endblock content %}</main>{% include "partials/footer.html" %}</div></div>
+<script src="/prism.js"></script><script src="/index.js"></script><script src="/reading.js"></script>
+</body></html>

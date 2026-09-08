@@ -115,6 +115,7 @@ function get_browser_night_mode() {
 // Update the body's class that affects on either day or night mode, based on the given mode.
 function set_body_night_mode(night_mode) {
     let body = document.getElementsByTagName("body")[0];
+    document.getElementById("toggle_night_mode")?.setAttribute("aria-pressed", String(night_mode === "night"));
     if (night_mode === "night") {
         body.classList.add("night-mode");
         body.classList.remove("day-mode");
@@ -126,7 +127,7 @@ function set_body_night_mode(night_mode) {
 
 // Called by toggle button, enable or disable night mode and persist setting in localStorage.
 function toggle_night_mode() {
-    let night_mode = storage_get("night-mode") || get_browser_night_mode();
+    let night_mode = document.body.classList.contains("night-mode") ? "night" : "day";
 
     if (night_mode === "night") {
         night_mode = "day";
@@ -153,6 +154,7 @@ function toggle_ligatures() {
         storage_set("ligatures", "ligatures");
     }
 
+    document.getElementById("toggle_ligatures")?.setAttribute("aria-pressed", String(set === "common-ligatures"));
     codes_rust.forEach((code) => {
         code.style.fontVariantLigatures = set;
     });
@@ -161,17 +163,20 @@ function toggle_ligatures() {
 // Opens or closes the blue box on top of the page.
 function toggle_legend() {
     let short = document.querySelectorAll("symbol-legend.short")[0];
+    if (!short) return;
     let long = document.querySelectorAll("symbol-legend.long")[0];
-    let href = document.querySelectorAll("blockquote.legend div a")[0]
+    let href = document.querySelector(".legend-toggle");
 
     if (short.style.display == "" || short.style.display == "block") {
         short.style.display = "none";
         long.style.display = "block";
-        href.text = "➖";
+        href.textContent = "Hide symbol legend";
+        href.setAttribute("aria-expanded", "true");
     } else {
         short.style.display = "block";
         long.style.display = "none";
-        href.text = "➕";
+        href.textContent = "Show symbol legend";
+        href.setAttribute("aria-expanded", "false");
     }
 }
 
@@ -272,12 +277,12 @@ function expand_all() {
 
 // Sets something to local storage.
 function storage_set(key, value) {
-    !!localStorage && localStorage.setItem(key, value);
+    try { localStorage.setItem(key, value); } catch (_) { /* Storage can be disabled. */ }
 }
 
 // Retrieves something from local storage.
 function storage_get(key) {
-    return !!localStorage && localStorage.getItem(key);
+    try { return localStorage.getItem(key); } catch (_) { return null; }
 }
 
 
@@ -516,7 +521,8 @@ codes_rust.forEach(code => {
 window.onload = () => {
     try {
         // Check if we have been asked to print
-        if (window.location.hash == "#_print") {
+        const is_print_source = window.location.hash == "#_print" || window.location.pathname == "/_print/";
+        if (is_print_source) {
             // In print mode, all we care for is to enable a few things
             toggle_ligatures();
             expand_all();
@@ -532,7 +538,7 @@ window.onload = () => {
             // Don't attach feedback to h1, looks ugly and doesn't help.
             feedback_attach_buttons(["h2", "h3", "h4"]);
 
-            if (Math.random() < 0.15) { random_quote(); }
+            if (document.getElementById("subtitle") && Math.random() < 0.15) { random_quote(); }
             if (ligatures === "ligatures") { toggle_ligatures(); }
 
             set_body_night_mode(night_mode);
