@@ -27,6 +27,7 @@ jobs:
       run: |
         bash ./scripts/ci_fix_permissions.sh
         npm run check:content
+        npm run check:design
         bash ./scripts/ci_pack_public.sh
         npm run check:site -- public.clean
         python3 -m http.server 4173 --directory public.clean &
@@ -38,6 +39,8 @@ jobs:
         done
         curl --fail --silent http://127.0.0.1:4173/ >/dev/null
         npm run check:reading -- http://127.0.0.1:4173
+        npm run check:a11y -- http://127.0.0.1:4173
+        npm run check:lighthouse -- http://127.0.0.1:4173
         kill $SERVER_PID
         trap - EXIT
         npm run pdf

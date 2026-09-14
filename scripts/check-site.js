@@ -95,6 +95,18 @@ for (const stylesheet of ["font-opensans.css", "font-firacode.css", "main.css"])
         assert(fs.existsSync(path.join(root, url.replace(/^\//, ""))), `${stylesheet}: missing ${url}`);
     }
 }
+const searchIndex = JSON.parse(fs.readFileSync(path.join(root, "search_index.en.json"), "utf8"));
+assert(Array.isArray(searchIndex) && searchIndex.length >= published.length, "native search index covers the published site");
+assert(searchIndex.every(item => item.title && item.path?.startsWith("/")), "search entries contain titles and local paths");
+assert(searchIndex.every(item => !item.path.startsWith("/_print/")), "print source is excluded from search");
+for (const route of ["data-structures", "references-pointers", "functions-behavior", "control-flow", "organizing-code", "type-aliases-and-casts", "macros-attributes"]) {
+    const html = fs.readFileSync(path.join(root, "language-constructs", route, "index.html"), "utf8");
+    assert(html.includes("reference-table-frame"), `${route}: reference tables use the design-system frame`);
+    assert(html.includes("reference-table--language"), `${route}: reference tables use the language tone`);
+}
+for (const filename of ["js/theme.js", "js/nav.js", "js/search.js", "js/copy.js"]) {
+    assert(fs.statSync(path.join(root, filename)).size > 100, `${filename}: interface behavior is present`);
+}
 const socialCard = fs.readFileSync(path.join(root, "social-card.png"));
 assert(socialCard.length > 10_000, "social card is present and non-empty");
 if (finalArtifact) {

@@ -14,26 +14,26 @@
 @media screen {
     html { font-size: 100%; scroll-padding-top: var(--reading-offset, 5rem); }
     body {
-        --surface: #fff;
-        --surface-soft: #f4f6f8;
-        --text: #293340;
-        --muted: #566375;
-        --line: #ccd4de;
-        --link: #1d5d9f;
-        --focus: #175fb0;
-        --note: #edf6ff;
+        --surface: var(--rs-surface);
+        --surface-soft: var(--rs-surface-2);
+        --text: var(--rs-ink);
+        --muted: var(--rs-muted);
+        --line: var(--rs-border);
+        --link: var(--rs-info);
+        --focus: var(--rs-focus);
+        --note: var(--rs-info-tint);
         background: var(--surface);
         color: var(--text);
     }
     @mixin dark-reading {
-        --surface: #222;
-        --surface-soft: #2b3036;
-        --text: #e0e5ec;
-        --muted: #b4bfcd;
-        --line: #596575;
-        --link: #8ec6ff;
-        --focus: #9dceff;
-        --note: #172f43;
+        --surface: var(--rs-surface);
+        --surface-soft: var(--rs-surface-2);
+        --text: var(--rs-ink);
+        --muted: var(--rs-muted);
+        --line: var(--rs-border);
+        --link: var(--rs-info);
+        --focus: var(--rs-focus);
+        --note: var(--rs-info-tint);
     }
     body.night-mode { @include dark-reading; }
     @media (prefers-color-scheme: dark) {
@@ -89,20 +89,21 @@
         blockquote { background: var(--note); border: 1px solid var(--line); }
         table tbody tr:nth-child(2n) { background: var(--surface-soft); }
         table thead { background: var(--surface-soft); }
-        // Category colors remain light in both themes.
-        .color-header th, .stringconversion th { color: #10141c; }
-        .color-header th a, .stringconversion th a { color: #174c80; }
+        .color-header th, .stringconversion th { color: var(--rs-colored-header-ink); }
+        .color-header th a, .stringconversion th a { color: inherit; }
         .color-header th code, .stringconversion th code,
         table.sendsync th code, table.sendsync td:first-child code {
-            color: #10141c;
+            color: var(--text);
             background: transparent;
             .token { color: inherit; }
         }
+        .color-header th, .color-header th *,
+        .stringconversion th, .stringconversion th * { color: var(--rs-colored-header-ink) !important; }
     }
     .night-mode .page__content {
-        code { color: #e0e5ec; background-color: #30363e; }
+        code { color: var(--rs-panel-ink); background-color: var(--rs-panel); }
         pre code { background: none; }
-        .token.comment { color: #b4bfcd; }
+        .token.comment { color: var(--rs-panel-muted); }
     }
     .day-mode .page__content {
         .token.comment, .token.punctuation { color: #58616b; }
@@ -225,7 +226,7 @@
     fixed-2-column.extra-wide > .table-scroll > table td:first-child,
     fixed-3-column.extra-wide > .table-scroll > table td:first-child { width: 300px; }
     fixed-3-column > .table-scroll > table td:nth-child(2) { width: 40px; padding-left: 5px; }
-    .diagram-scroll > lifetime-example,
+    .diagram-scroll > lifetime-example { min-width: max-content; }
     .diagram-scroll > threading-section,
     .diagram-scroll > zoo { min-width: 770px; }
     .datum-scroll { display: inline-block; vertical-align: top; margin: 0; }

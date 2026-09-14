@@ -6,6 +6,7 @@
 
 @charset "utf-8";
 
+@import "tokens";
 @import "normalize";
 @import "html";
 @import "page";
@@ -175,7 +176,7 @@ feedback {
             border-style: solid;
 
             font-size: 13px;
-            font-family: "Open Sans", sans-serif;
+            font-family: "Nunito", system-ui, sans-serif;
 
             resize: none;
         }
@@ -626,3 +627,4 @@ less-important {
     opacity: 0.4;
 }
 @import "reading";
+@import "rustds";

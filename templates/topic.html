@@ -1,15 +1,13 @@
-{% extends "base.html" %}
+{% extends "base.html" %}{% import "macros/shell.html" as shell %}
 {% block title %}{{ page.extra.seo_title }} | {{ config.title }}{% endblock title %}{% block description %}{{ page.description }}{% endblock description %}{% block canonical %}{{ page.permalink }}{% endblock canonical %}
 {% block og_title %}{{ page.extra.seo_title }} | {{ config.title }}{% endblock og_title %}{% block og_description %}{{ page.description }}{% endblock og_description %}{% block og_url %}{{ page.permalink }}{% endblock og_url %}
 {% block twitter_title %}{{ page.extra.seo_title }} | {{ config.title }}{% endblock twitter_title %}{% block twitter_description %}{{ page.description }}{% endblock twitter_description %}
 {% block structured_data %}{% set category_path = page.ancestors | last %}{% set category = get_section(path=category_path) %}<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"{{ config.base_url }}/"},{"@type":"ListItem","position":2,"name":{{ category.title | json_encode() | safe }},"item":{{ category.permalink | json_encode() | safe }}},{"@type":"ListItem","position":3,"name":{{ page.title | json_encode() | safe }},"item":{{ page.permalink | json_encode() | safe }}}]}</script>{% endblock structured_data %}
 {% block content %}
 {% set category_path = page.ancestors | last %}{% set category = get_section(path=category_path) %}
-<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="{{ category.path }}">{{ category.title }}</a><span aria-hidden="true">/</span><span aria-current="page">{{ page.title }}</span></nav>
+{{ shell::crumbs(current=page.title, group=category.title, group_url=category.path) }}
 {% if category.title == "Behind the Scenes" %}<magic>{% endif %}
-<h1 id="{{ page.extra.anchor }}">{{ page.title }}</h1>
-{% if page.toc | length >= 2 %}<nav class="local-toc" aria-label="On this page"><strong>On this page</strong><ul>{% for heading in page.toc %}<li><a href="#{{ heading.permalink | split(pat="#") | last }}">{{ heading.title }}</a></li>{% endfor %}</ul></nav>{% endif %}
-{{ page.content | safe }}
+{{ shell::page_head(title=page.title, lead=page.description, id=page.extra.anchor) }}
+<div class="topic-layout{% if page.toc | length >= 2 %} topic-layout--with-toc{% endif %}">{% if page.toc | length >= 2 %}{{ shell::toc(items=page.toc) }}{% endif %}<div class="topic-body">{{ page.content | safe }}{{ shell::pager(previous=page.extra.previous, previous_title=page.extra.previous_title, next=page.extra.next, next_title=page.extra.next_title) }}</div></div>
 {% if category.title == "Behind the Scenes" %}</magic>{% endif %}
-<nav class="page-navigation" aria-label="Previous and next topics"><a rel="prev" href="{{ page.extra.previous }}"><span>Previous</span>{{ page.extra.previous_title }}</a><a rel="next" href="{{ page.extra.next }}"><span>Next</span>{{ page.extra.next_title }}</a></nav>
 {% endblock content %}

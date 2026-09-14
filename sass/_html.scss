@@ -15,31 +15,31 @@ html {
 
 body {
     text-rendering: optimizeLegibility;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Nunito", system-ui, sans-serif;
 }
 
 // Preliminary background until day-mode / night-mode class is added by Javascript.
 @media (prefers-color-scheme: light) {
     body {
-        background-color: white;
-        color: black;
+        background-color: var(--rs-canvas);
+        color: var(--rs-ink);
     }
 }
 @media (prefers-color-scheme: dark) {
     body {
-        background-color: #222;
-        color: white;
+        background-color: var(--rs-canvas);
+        color: var(--rs-ink);
     }
 }
 
 body.day-mode {
-    background-color: white;
-    color: black;
+    background-color: var(--rs-canvas);
+    color: var(--rs-ink);
 }
 
 body.night-mode {
-    background-color: #222;
-    color: white;
+    background-color: var(--rs-canvas);
+    color: var(--rs-ink);
 }
 
 h1,
@@ -84,7 +84,7 @@ strike {
 
 .night-mode {
     a.tooltip {
-        color: white;
+        color: var(--rs-ink);
         cursor: help;
     }
 

@@ -2,6 +2,15 @@
 base_url = "https://cheats.rs"
 title = "Rust Language Cheat Sheet"
 description = "A focused Rust reference for syntax, types, memory layout, the standard library, tooling, and coding practices."
+default_language = "en"
 compile_sass = true
 generate_sitemap = true
 generate_robots_txt = true
+build_search_index = true
+
+[search]
+include_title = true
+include_description = true
+include_content = true
+include_path = true
+index_format = "fuse_json"

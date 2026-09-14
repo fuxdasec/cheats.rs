@@ -9,10 +9,10 @@ https://prismjs.com/download.html#themes=prism-dark&languages=markup+css+clike+j
 .night-mode {
 	code[class*="language-"],
 	pre[class*="language-"] {
-		color: white;
+		color: var(--rs-panel-ink);
 		background: none;
 		// text-shadow: 0 -.1em .2em white;
-		font-family: 'Fira Code', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+			font-family: 'JetBrains Mono', ui-monospace, monospace;
 		font-variant-ligatures: none;
 		text-align: left;
 		white-space: pre;
@@ -34,13 +34,13 @@ https://prismjs.com/download.html#themes=prism-dark&languages=markup+css+clike+j
 	pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
 	code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
 		text-shadow: none;
-		background: #b3d4fc;
+		background: var(--rs-info-deep);
 	}
 
 	pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
 	code[class*="language-"]::selection, code[class*="language-"] ::selection {
 		text-shadow: none;
-		background: #b3d4fc;
+		background: var(--rs-info-deep);
 	}
 
 	@media print {
@@ -55,16 +55,16 @@ https://prismjs.com/download.html#themes=prism-dark&languages=markup+css+clike+j
 		padding: 1em;
 		margin: .5em 0;
 		overflow: auto;
-		background: #313131;
+		background: var(--rs-panel);
 
 	}
 
 	/* In blockquotes we still need it though otherwise it looks ugly */
 	blockquote code[class*="language-"],
 	pre[class*="language-"] {
-		background: #313131;
+		background: var(--rs-panel);
 		border-radius: 2px;
-		border: #414141 solid 1px;
+		border: var(--rs-panel-border) solid 1px;
 	}
 
 	/* Inline code */
@@ -80,7 +80,7 @@ https://prismjs.com/download.html#themes=prism-dark&languages=markup+css+clike+j
 	.token.prolog,
 	.token.doctype,
 	.token.cdata {
-		color: hsl(30, 20%, 50%);
+		color: var(--rs-panel-muted);
 	}
 
 	.token.punctuation {
@@ -97,7 +97,7 @@ https://prismjs.com/download.html#themes=prism-dark&languages=markup+css+clike+j
 	.token.number,
 	.token.constant,
 	.token.symbol {
-		color: hsl(197, 75%, 89%);
+		color: var(--rs-info-ink);
 	}
 
 	.token.selector,
@@ -106,7 +106,7 @@ https://prismjs.com/download.html#themes=prism-dark&languages=markup+css+clike+j
 	.token.char,
 	.token.builtin,
 	.token.inserted {
-		color: hsl(75, 70%, 60%);
+		color: var(--rs-ok-ink);
 	}
 
 	.token.operator,
@@ -115,18 +115,18 @@ https://prismjs.com/download.html#themes=prism-dark&languages=markup+css+clike+j
 	.language-css .token.string,
 	.style .token.string,
 	.token.variable {
-		color: hsl(40, 90%, 60%);
+		color: var(--rs-warn-ink);
 	}
 
 	.token.atrule,
 	.token.attr-value,
 	.token.keyword {
-		color: hsl(306, 51%, 75%);
+		color: var(--rs-type);
 	}
 
 	.token.regex,
 	.token.important {
-		color: #e90;
+		color: var(--rs-primary-ink);
 	}
 
 	.token.important,
@@ -142,6 +142,6 @@ https://prismjs.com/download.html#themes=prism-dark&languages=markup+css+clike+j
 	}
 
 	.token.deleted {
-		color: red;
+		color: var(--rs-bad-ink);
 	}
 }

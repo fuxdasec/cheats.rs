@@ -1,0 +1,15 @@
+{% macro btn(label, variant="secondary", size="md", href="", id="", disabled=false, pressed="") %}
+{% if href %}<a{% if id %} id="{{ id }}"{% endif %} class="button button--{{ variant }} button--{{ size }}{% if disabled %} is-disabled{% endif %}" href="{{ href }}"{% if disabled %} aria-disabled="true" tabindex="-1"{% endif %}>{{ label }}</a>{% else %}<button type="button"{% if id %} id="{{ id }}"{% endif %} class="button button--{{ variant }} button--{{ size }}"{% if pressed %} aria-pressed="{{ pressed }}"{% endif %}{% if disabled %} disabled aria-disabled="true"{% endif %}>{{ label }}</button>{% endif %}
+{% endmacro btn %}
+
+{% macro ref(kind, url, label="", base="") %}<a class="ref ref--{{ kind }}" href="{{ base }}{{ url }}" aria-label="{% if label %}{{ label }}{% else %}See this topic in {{ kind | upper }}{% endif %}">{{ kind | upper }}</a>{% endmacro ref %}
+{% macro tag(label, kind="neutral") %}<span class="tag tag--{{ kind }}">{{ label }}</span>{% endmacro tag %}
+{% macro c(txt) %}<code class="code-inline">{{ txt }}</code>{% endmacro c %}
+{% macro ty(name) %}<code class="type-name">{{ name }}</code>{% endmacro ty %}
+{% macro kbd(keys) %}<kbd>{{ keys }}</kbd>{% endmacro kbd %}
+{% macro fn_ref(number) %}<sup class="footnote-ref">{{ number }}</sup>{% endmacro fn_ref %}
+{% macro link(label, href, external=false) %}<a href="{{ href }}"{% if external %} rel="external"{% endif %}>{{ label }}</a>{% endmacro link %}
+{% macro toggle(id, label, on=false) %}<button type="button" class="button button--secondary toggle" id="{{ id }}" aria-pressed="{% if on %}true{% else %}false{% endif %}"><span class="toggle__track" aria-hidden="true"><span></span></span><span>{{ label }}</span></button>{% endmacro toggle %}
+{% macro byte_cell(value, tone="neutral") %}<span class="byte-cell byte-cell--{{ tone }}">{{ value }}</span>{% endmacro byte_cell %}
+{% macro ribbon(label, url) %}<nav class="corner-ribbon" aria-label="Repository"><a href="{{ url }}">{{ label }}</a></nav>{% endmacro ribbon %}
+{% macro chip(label, kind="other", stacked=false, marker="") %}<span class="item-chip item-chip--{{ kind }}{% if stacked %} item-chip--stacked{% endif %}">{% if marker %}<span aria-hidden="true">{{ marker }}</span>{% endif %}{{ label }}</span>{% endmacro chip %}

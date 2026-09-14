@@ -5,13 +5,18 @@
     "pdf": "node ./scripts/pdf.js",
     "social-card": "node ./scripts/generate-social-card.js",
     "check:content": "node ./scripts/check-content.js",
+    "check:design": "node ./scripts/check-design-system.js",
     "check:site": "node ./scripts/check-site.js",
-    "check:reading": "node ./scripts/check-reading.js"
+    "check:reading": "node ./scripts/check-reading.js",
+    "check:a11y": "node ./scripts/check-a11y.js",
+    "check:lighthouse": "node ./scripts/check-lighthouse.js"
   },
   "private": true,
   "dependencies": {
+    "axe-core": "^4.10.2",
     "cssnano": "^5.1.14",
     "htmlnano": "^0.2.5",
+    "lighthouse": "^12.8.2",
     "playwright": "^1.41.2",
     "postcss": "^8.4.19",
     "posthtml-cli": "^0.10.0",

@@ -7,3 +7,4 @@ config.deploy.toml
 node_modules
 package-lock.json
 .idea
+docs

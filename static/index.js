@@ -115,6 +115,7 @@ function get_browser_night_mode() {
 // Update the body's class that affects on either day or night mode, based on the given mode.
 function set_body_night_mode(night_mode) {
     let body = document.getElementsByTagName("body")[0];
+    document.documentElement.setAttribute("data-theme", night_mode === "night" ? "dark" : "light");
     document.getElementById("toggle_night_mode")?.setAttribute("aria-pressed", String(night_mode === "night"));
     if (night_mode === "night") {
         body.classList.add("night-mode");
@@ -136,6 +137,7 @@ function toggle_night_mode() {
     }
 
     storage_set("night-mode", night_mode);
+    storage_set("rsds-theme", night_mode === "night" ? "dark" : "light");
     set_body_night_mode(night_mode);
 }
 
@@ -468,31 +470,12 @@ function feedback_attach_buttons(list_of_header_tags) {
     }
 }
 
-// Make sure all "memory-bars" descriptions expand or collapse when clicked.
-function memory_bars_expand_on_click() {
-    let memory_bars = document.querySelectorAll("memory-row");
-
-    for (let e of memory_bars) {
-        e.onclick = (e) => {
-            let section = e.target.closest("lifetime-section");
-            let description = section.getElementsByTagName("explanation")[0];
-
-            // Some elements just don't have any
-            if (!description) return;
-
-            if (!description.style.display || description.style.display == "none") {
-                description.style.display = "inherit";
-            } else {
-                description.style.display = "none";
-            }
-        }
-    }
-}
-
-
 // Make sure all "generics-section" expand when clicked.
 function generics_section_expand_on_click() {
-    let generics_section = document.querySelectorAll("generics-section > header");
+    // reading.js upgrades these sections to accessible disclosure buttons.
+    // Retain this only as a compatibility fallback if that enhancement did
+    // not run; never attach a second click handler to an enhanced section.
+    let generics_section = document.querySelectorAll("generics-section:not(.has-disclosure-toggle) > header");
 
     for (let e of generics_section) {
         e.onclick = (_) => {
@@ -533,18 +516,19 @@ window.onload = () => {
             // Executed on page load, this runs all toggles the user might have clicked
             // the last time based on localStorage.
             let ligatures = storage_get("ligatures");
-            let night_mode = storage_get("night-mode") || get_browser_night_mode();
+            let saved_theme = storage_get("rsds-theme");
+            let night_mode = saved_theme ? (saved_theme === "dark" ? "night" : "day") : (storage_get("night-mode") || get_browser_night_mode());
 
             // Don't attach feedback to h1, looks ugly and doesn't help.
             feedback_attach_buttons(["h2", "h3", "h4"]);
 
             if (document.getElementById("subtitle") && Math.random() < 0.15) { random_quote(); }
-            if (ligatures === "ligatures") { toggle_ligatures(); }
+            // Screen ligature state is initialized by js/theme.js. The legacy
+            // helper remains public for printable output and old inline links.
 
             set_body_night_mode(night_mode);
 
             // Make sure all interactive content works
-            memory_bars_expand_on_click();
             generics_section_expand_on_click();
 
             json_post("/page/loaded", { referrer: document.referrer });
