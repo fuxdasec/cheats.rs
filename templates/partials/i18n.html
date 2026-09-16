@@ -1,0 +1,4 @@
+
+{% set catalog = load_data(path="i18n/" ~ lang ~ ".json") %}
+<script type="application/json" id="i18n-messages">{{ catalog.messages | json_encode() | replace(from="<", to="\u003c") | safe }}</script>
+<script src="/js/i18n.js"></script>

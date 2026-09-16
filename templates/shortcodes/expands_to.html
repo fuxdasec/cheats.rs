@@ -1,2 +1,2 @@
-
-<a class="tooltip" style="font-size: 70%; position:relative; left: 3px; color: gray;" title="The parent item expands to ...">↪&nbsp;</a>
+{% import "macros/i18n.html" as i18n %}
+<span class="tooltip" style="font-size: 70%; position:relative; left: 3px; color: gray;" title="{{ i18n::t(key="The parent item expands to ...") }}">{{ i18n::t(key="↪&nbsp;") }}</span>

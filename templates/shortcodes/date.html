@@ -1,1 +1,1 @@
-{{ now() | date(format="%-d. %B %Y") }}
+<time data-local-date datetime="{{ now() | date(format="%Y-%m-%d") }}">{{ now() | date(format="%-d. %B %Y") }}</time>

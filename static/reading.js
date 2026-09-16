@@ -1,6 +1,6 @@
 // Progressive enhancements for legacy links, wide content and local navigation.
 (() => {
-    if (location.pathname === '/' && location.hash && location.hash !== '#_print') {
+    if (window.rsI18n.route === '/' && location.hash && location.hash !== '#_print') {
         fetch('/legacy-anchors.json')
             .then(response => response.ok ? response.json() : {})
             .then(routes => {
@@ -23,7 +23,7 @@
         const hint = document.createElement('div');
         hint.className = 'scroll-hint';
         hint.id = `scroll-hint-${regions.length}`;
-        hint.textContent = `Scroll horizontally to see the full ${kind}.`;
+        hint.textContent = window.rsI18n.t("Scroll horizontally to see the full {kind}.", { kind: window.rsI18n.t(kind) });
         region.before(hint);
         regions.push({ region, hint, kind });
     };
@@ -125,7 +125,7 @@
         title.className = 'disclosure-toggle__title';
         title.innerHTML = header.innerHTML;
         action.className = 'disclosure-toggle__action';
-        action.textContent = expanded ? 'Hide details' : 'Show details';
+        action.textContent = expanded ? window.rsI18n.t("Hide details") : window.rsI18n.t("Show details");
         icon.className = 'disclosure-toggle__icon';
         icon.setAttribute('aria-hidden', 'true');
         icon.textContent = '▾';
@@ -136,7 +136,7 @@
             description.hidden = !value;
             button.classList.toggle('is-expanded', value);
             button.setAttribute('aria-expanded', String(value));
-            action.textContent = value ? 'Hide details' : 'Show details';
+            action.textContent = value ? window.rsI18n.t("Hide details") : window.rsI18n.t("Show details");
         };
         setExpanded(expanded);
         button.addEventListener('click', () => setExpanded(button.getAttribute('aria-expanded') !== 'true'));
@@ -211,7 +211,7 @@
         } else {
             datum.prepend(figure);
             datum.setAttribute('role', 'img');
-            datum.setAttribute('aria-label', 'Memory layout diagram');
+            datum.setAttribute('aria-label', window.rsI18n.t("Memory layout diagram"));
         }
         zooms.forEach(zoom => datum.append(zoom));
         captions.forEach(description => {
@@ -224,33 +224,33 @@
         '/memory-layout/custom-types/': {
             expected: 9,
             groups: [
-                { label: 'Type shapes', title: 'Type shapes', level: 2, tone: 'type', cards: [[0, 'compact'], [1, 'compact'], [2, 'compact'], [3, 'compact'], [4, 'compact']] },
-                { label: 'Composite layouts', title: 'Composite layouts', level: 2, tone: 'layout', cards: [[5, 'diagram'], [6, 'diagram']] },
-                { label: 'Sum types', title: 'Sum types', level: 2, tone: 'sum', cards: [[7, 'diagram'], [8, 'diagram']] },
+                { label: window.rsI18n.t("Type shapes"), title: window.rsI18n.t("Type shapes"), level: 2, tone: 'type', cards: [[0, 'compact'], [1, 'compact'], [2, 'compact'], [3, 'compact'], [4, 'compact']] },
+                { label: window.rsI18n.t("Composite layouts"), title: window.rsI18n.t("Composite layouts"), level: 2, tone: 'layout', cards: [[5, 'diagram'], [6, 'diagram']] },
+                { label: window.rsI18n.t("Sum types"), title: window.rsI18n.t("Sum types"), level: 2, tone: 'sum', cards: [[7, 'diagram'], [8, 'diagram']] },
             ],
         },
         '/memory-layout/references-pointers/': {
             expected: 7,
             groups: [
-                { label: 'Reference kinds', title: 'Reference kinds', level: 2, tone: 'pointer', cards: [[0, 'diagram'], [1, 'diagram']] },
-                { label: 'Pointer metadata', tone: 'pointer', cards: [[2, 'diagram'], [3, 'diagram'], [4, 'diagram'], [5, 'diagram'], [6, 'wide', 'datum-card--vtable']] },
+                { label: window.rsI18n.t("Reference kinds"), title: window.rsI18n.t("Reference kinds"), level: 2, tone: 'pointer', cards: [[0, 'diagram'], [1, 'diagram']] },
+                { label: window.rsI18n.t("Pointer metadata"), tone: 'pointer', cards: [[2, 'diagram'], [3, 'diagram'], [4, 'diagram'], [5, 'diagram'], [6, 'wide', 'datum-card--vtable']] },
             ],
         },
         '/memory-layout/closures/': {
             expected: 2,
             groups: [
-                { label: 'Capture layouts', title: 'Capture layouts', level: 2, tone: 'closure', cards: [[0, 'diagram'], [1, 'diagram']] },
+                { label: window.rsI18n.t("Capture layouts"), title: window.rsI18n.t("Capture layouts"), level: 2, tone: 'closure', cards: [[0, 'diagram'], [1, 'diagram']] },
             ],
         },
         '/memory-layout/standard-library-types/': {
             expected: 26,
             groups: [
-                { label: 'Core wrappers and markers', title: 'Core wrappers and markers', level: 2, tone: 'std', cards: [[0, 'compact'], [1, 'compact'], [2, 'compact'], [3, 'compact'], [4, 'compact'], [5, 'compact'], [6, 'diagram']] },
-                { label: 'Cells', tone: 'cell', cards: [[7, 'compact'], [8, 'compact'], [9, 'compact'], [10, 'compact'], [11, 'compact']] },
-                { label: 'Order-preserving collections', tone: 'collection', cards: [[12, 'diagram'], [13, 'diagram'], [14, 'wide'], [15, 'wide']] },
-                { label: 'Other collections', tone: 'collection', cards: [[16, 'wide'], [17, 'wide']] },
-                { label: 'Owned strings', tone: 'string', cards: [[18, 'diagram'], [19, 'diagram'], [20, 'diagram'], [21, 'diagram']] },
-                { label: 'Shared ownership', tone: 'ownership', cards: [[22, 'wide'], [23, 'wide'], [24, 'diagram'], [25, 'diagram']] },
+                { label: window.rsI18n.t("Core wrappers and markers"), title: window.rsI18n.t("Core wrappers and markers"), level: 2, tone: 'std', cards: [[0, 'compact'], [1, 'compact'], [2, 'compact'], [3, 'compact'], [4, 'compact'], [5, 'compact'], [6, 'diagram']] },
+                { label: window.rsI18n.t("Cells"), tone: 'cell', cards: [[7, 'compact'], [8, 'compact'], [9, 'compact'], [10, 'compact'], [11, 'compact']] },
+                { label: window.rsI18n.t("Order-preserving collections"), tone: 'collection', cards: [[12, 'diagram'], [13, 'diagram'], [14, 'wide'], [15, 'wide']] },
+                { label: window.rsI18n.t("Other collections"), tone: 'collection', cards: [[16, 'wide'], [17, 'wide']] },
+                { label: window.rsI18n.t("Owned strings"), tone: 'string', cards: [[18, 'diagram'], [19, 'diagram'], [20, 'diagram'], [21, 'diagram']] },
+                { label: window.rsI18n.t("Shared ownership"), tone: 'ownership', cards: [[22, 'wide'], [23, 'wide'], [24, 'diagram'], [25, 'diagram']] },
             ],
         },
     };
@@ -297,7 +297,7 @@
     // Basic Types benefits from comparing the small memory layouts side by
     // side. Treating every datum as its own full-width scroll region obscures
     // that comparison and also creates a redundant scroller around the tabs.
-    if (location.pathname === '/memory-layout/basic-types/') {
+    if (window.rsI18n.route === '/memory-layout/basic-types/') {
         document.documentElement.classList.add('page-basic-types');
         const numericTabs = document.querySelector('#tab-numeric-1')?.closest('tabs');
         const numericShell = numericTabs?.parentElement?.parentElement;
@@ -322,10 +322,10 @@
                     const size = document.createElement('span');
                     size.className = 'basic-type-size';
                     size.textContent = datum.dataset.family === 'pointer'
-                        ? 'pointer-sized'
+                        ? window.rsI18n.t("pointer-sized")
                         : visual?.querySelector('note')
-                            ? 'variable length'
-                            : `${byteCount} byte${byteCount === 1 ? '' : 's'}`;
+                            ? window.rsI18n.t("variable length")
+                            : window.rsI18n.t(byteCount === 1 ? "{count} byte" : "{count} bytes", { count: byteCount });
                     name.append(size);
                 }
                 cards.append(datum);
@@ -352,9 +352,9 @@
             gallery.className = 'basic-type-gallery basic-type-gallery--numeric';
             numericDatums[0].before(gallery);
             gallery.append(
-                makeGroup('fixed-width-types', 'Boolean and fixed-width integers', numericDatums.filter(datum => datum.querySelector('visual.bool, visual.bytes'))),
-                makeGroup('pointer-sized-types', 'Pointer-sized integers', numericDatums.filter(datum => datum.querySelector('visual.sized'))),
-                makeGroup('floating-point-types', 'Floating-point types', numericDatums.filter(datum => datum.querySelector('visual.float'))),
+                makeGroup('fixed-width-types', window.rsI18n.t("Boolean and fixed-width integers"), numericDatums.filter(datum => datum.querySelector('visual.bool, visual.bytes'))),
+                makeGroup('pointer-sized-types', window.rsI18n.t("Pointer-sized integers"), numericDatums.filter(datum => datum.querySelector('visual.sized'))),
+                makeGroup('floating-point-types', window.rsI18n.t("Floating-point types"), numericDatums.filter(datum => datum.querySelector('visual.float'))),
             );
         }
 
@@ -374,19 +374,19 @@
         if (floatInternals) enhanceDatumCard(floatInternals, 'detail');
     }
 
-    if (datumPages[location.pathname]) enhanceDatumPage(datumPages[location.pathname]);
+    if (datumPages[window.rsI18n.route]) enhanceDatumPage(datumPages[window.rsI18n.route]);
 
-    if (location.pathname === '/standard-library/atomics-cache/') {
+    if (window.rsI18n.route === '/standard-library/atomics-cache/') {
         document.documentElement.classList.add('page-atomics-cache');
         const titles = [
-            ['Cache coherence', 'Main memory and per-CPU cache state'],
-            ['Reordering and false sharing', 'How independent reads and writes can become observable'],
-            ['Atomic synchronization', 'How atomic operations coordinate memory visibility'],
+            [window.rsI18n.t("Cache coherence"), window.rsI18n.t("Main memory and per-CPU cache state")],
+            [window.rsI18n.t("Reordering and false sharing"), window.rsI18n.t("How independent reads and writes can become observable")],
+            [window.rsI18n.t("Atomic synchronization"), window.rsI18n.t("How atomic operations coordinate memory visibility")],
         ];
         const boards = [...document.querySelectorAll('.topic-body > div[style]')]
             .filter(board => board.style.overflow === 'auto' && board.querySelector('lifetime-example'));
         boards.forEach((board, index) => {
-            const [title, summary] = titles[index] || [`Memory sequence ${index + 1}`, 'Memory and cache state'];
+            const [title, summary] = titles[index] || [`Memory sequence ${index + 1}`, window.rsI18n.t("Memory and cache state")];
             const card = document.createElement('section');
             const heading = document.createElement('h2');
             const description = document.createElement('p');
@@ -403,7 +403,7 @@
         });
     }
 
-    if (location.pathname === '/working-with-types/foreign-types-and-traits/') {
+    if (window.rsI18n.route === '/working-with-types/foreign-types-and-traits/') {
         const zoo = document.querySelector('.topic-body > div[style*="overflow"] zoo.zoo');
         const board = zoo?.closest('div[style*="overflow"]');
         const canvas = zoo?.parentElement;
@@ -420,19 +420,19 @@
             card.className = 'foreign-types-card visual-card';
             card.setAttribute('aria-labelledby', 'foreign-types-map-title');
             heading.id = 'foreign-types-map-title';
-            heading.textContent = 'Type and trait ownership map';
+            heading.textContent = window.rsI18n.t("Type and trait ownership map");
             summary.className = 'foreign-types-card__summary';
-            summary.textContent = 'See what is defined upstream, what belongs to your crate, and which implementations the orphan rules allow.';
+            summary.textContent = window.rsI18n.t("See what is defined upstream, what belongs to your crate, and which implementations the orphan rules allow.");
             legend.className = 'foreign-types-key visual-key';
             legend.setAttribute('role', 'note');
-            legend.setAttribute('aria-label', 'Diagram key');
+            legend.setAttribute('aria-label', window.rsI18n.t("Diagram key"));
             legend.innerHTML = `
-                <strong>Diagram key</strong>
-                <span><i class="foreign-key__sample foreign-key__sample--local" aria-hidden="true"></i>Local</span>
-                <span><i class="foreign-key__sample foreign-key__sample--foreign" aria-hidden="true"></i>Foreign</span>
-                <span><i class="foreign-key__sample foreign-key__sample--allowed" aria-hidden="true"></i>Allowed</span>
-                <span><i class="foreign-key__sample foreign-key__sample--rejected" aria-hidden="true"></i>Rejected</span>
-                <span><i class="foreign-key__sample foreign-key__sample--generic" aria-hidden="true"></i>Generic family</span>`;
+                <strong>${window.rsI18n.t("Diagram key")}</strong>
+                <span><i class="foreign-key__sample foreign-key__sample--local" aria-hidden="true"></i>${window.rsI18n.t("Local")}</span>
+                <span><i class="foreign-key__sample foreign-key__sample--foreign" aria-hidden="true"></i>${window.rsI18n.t("Foreign")}</span>
+                <span><i class="foreign-key__sample foreign-key__sample--allowed" aria-hidden="true"></i>${window.rsI18n.t("Allowed")}</span>
+                <span><i class="foreign-key__sample foreign-key__sample--rejected" aria-hidden="true"></i>${window.rsI18n.t("Rejected")}</span>
+                <span><i class="foreign-key__sample foreign-key__sample--generic" aria-hidden="true"></i>${window.rsI18n.t("Generic family")}</span>`;
 
             board.before(card);
             card.append(heading, summary, legend, board);
@@ -474,7 +474,7 @@
             localRules?.classList.add('foreign-rules');
             if (localTraits) {
                 const title = document.createElement('h4');
-                title.textContent = 'Traits defined here';
+                title.textContent = window.rsI18n.t("Traits defined here");
                 localTraits.prepend(title);
             }
             if (localRules) {
@@ -485,17 +485,17 @@
                     entry.setAttribute('aria-hidden', 'true');
                 });
                 const definitions = [
-                    ['allowed', 'Allowed'],
-                    ['allowed', 'Allowed'],
-                    ['rejected', 'Rejected'],
-                    ['exception', 'Allowed · local parameter'],
-                    ['allowed', 'Allowed'],
-                    ['rejected', 'Rejected'],
-                    ['allowed', 'Allowed · blanket impl.'],
+                    ['allowed', window.rsI18n.t("Allowed")],
+                    ['allowed', window.rsI18n.t("Allowed")],
+                    ['rejected', window.rsI18n.t("Rejected")],
+                    ['exception', window.rsI18n.t("Allowed · local parameter")],
+                    ['allowed', window.rsI18n.t("Allowed")],
+                    ['rejected', window.rsI18n.t("Rejected")],
+                    ['allowed', window.rsI18n.t("Allowed · blanket impl.")],
                 ];
                 const examples = [...localRules.querySelectorAll(':scope > entry:not(.foreign-stack-copy)')];
                 examples.forEach((entry, index) => {
-                    const [status, text] = definitions[index] || ['allowed', 'Allowed'];
+                    const [status, text] = definitions[index] || ['allowed', window.rsI18n.t("Allowed")];
                     const badge = document.createElement('span');
                     entry.classList.add('foreign-rule', `foreign-rule--${status}`);
                     badge.className = 'foreign-rule__status';
@@ -511,7 +511,7 @@
         }
     }
 
-    if (location.pathname === '/standard-library/thread-safety/') {
+    if (window.rsI18n.route === '/standard-library/thread-safety/') {
         const diagram = document.querySelector('threading-section');
         const board = diagram?.closest('div[style*="overflow"]');
         const canvas = board?.firstElementChild;
@@ -524,18 +524,18 @@
             card.className = 'thread-safety-card visual-card';
             card.setAttribute('aria-labelledby', 'thread-safety-map-title');
             heading.id = 'thread-safety-map-title';
-            heading.textContent = 'Send and Sync across threads';
+            heading.textContent = window.rsI18n.t("Send and Sync across threads");
             summary.className = 'visual-card__summary';
-            summary.textContent = 'Compare which values can move to another thread and which references can be shared.';
+            summary.textContent = window.rsI18n.t("Compare which values can move to another thread and which references can be shared.");
             legend.className = 'thread-safety-key visual-key';
             legend.setAttribute('role', 'note');
-            legend.setAttribute('aria-label', 'Thread safety diagram key');
+            legend.setAttribute('aria-label', window.rsI18n.t("Thread safety diagram key"));
             legend.innerHTML = `
-                <strong>Diagram key</strong>
+                <strong>${window.rsI18n.t("Diagram key")}</strong>
                 <span><i class="thread-key__sample thread-key__sample--both" aria-hidden="true"></i>Send + Sync</span>
-                <span><i class="thread-key__sample thread-key__sample--one" aria-hidden="true"></i>One trait only</span>
-                <span><i class="thread-key__sample thread-key__sample--none" aria-hidden="true"></i>Neither</span>
-                <span><i class="thread-key__sample thread-key__sample--unavailable" aria-hidden="true"></i>Unavailable in this thread</span>`;
+                <span><i class="thread-key__sample thread-key__sample--one" aria-hidden="true"></i>${window.rsI18n.t("One trait only")}</span>
+                <span><i class="thread-key__sample thread-key__sample--none" aria-hidden="true"></i>${window.rsI18n.t("Neither")}</span>
+                <span><i class="thread-key__sample thread-key__sample--unavailable" aria-hidden="true"></i>${window.rsI18n.t("Unavailable in this thread")}</span>`;
             board.classList.add('thread-safety-board', 'visual-canvas');
             canvas.classList.add('thread-safety-canvas');
             diagram.classList.add('thread-safety-diagram');
@@ -558,28 +558,28 @@
     });
     document.querySelectorAll('.book-content table').forEach(table => {
         if (table.closest('.scroll-region, datum, zoo, mini-zoo, lifetime-example, threading-section')) return;
-        const headers = [...table.querySelectorAll('thead th')].map(cell => cell.textContent.trim());
-        const firstRowCount = table.querySelector('tbody tr')?.children.length || headers.length;
+        const headers = [...table.querySelectorAll("thead th")].map(cell => cell.textContent.trim());
+        const firstRowCount = table.querySelector("tbody tr")?.children.length || headers.length;
         wrap(table, 'table');
-        const category = location.pathname.split('/').filter(Boolean)[0];
+        const category = window.rsI18n.route.split('/').filter(Boolean)[0];
         const tone = category === 'language-constructs' ? 'language' : category === 'standard-library' ? 'std' : category === 'tooling' ? 'tooling' : 'neutral';
         const region = table.closest('.scroll-region');
         region.classList.add('reference-table-frame');
         table.classList.add('reference-table', `reference-table--${tone}`);
-        const tableHeaders = [...table.querySelectorAll('thead th')];
+        const tableHeaders = [...table.querySelectorAll("thead th")];
         tableHeaders.forEach((header, index) => {
             header.scope ||= 'col';
             header.id ||= `rs-runtime-table-${regions.length}-col-${index}`;
         });
-        table.querySelectorAll('tbody tr').forEach(row => {
+        table.querySelectorAll("tbody tr").forEach(row => {
             [...row.children].forEach((cell, index) => {
                 if (tableHeaders[index]) cell.setAttribute('headers', tableHeaders[index].id);
             });
         });
         if (firstRowCount === 2) {
             region.classList.add('table--two-column');
-            table.querySelectorAll('tbody tr').forEach(row => {
-                [...row.children].forEach((cell, index) => cell.dataset.label = headers[index] || (index ? 'Details' : 'Item'));
+            table.querySelectorAll("tbody tr").forEach(row => {
+                [...row.children].forEach((cell, index) => cell.dataset.label = headers[index] || (index ? window.rsI18n.t("Details") : window.rsI18n.t("Item")));
             });
         }
     });
@@ -594,13 +594,13 @@
         const legend = document.createElement('div');
         legend.className = 'lifetime-diagram-key visual-key';
         legend.setAttribute('role', 'note');
-        legend.setAttribute('aria-label', 'How to read the memory diagrams');
+        legend.setAttribute('aria-label', window.rsI18n.t("How to read the memory diagrams"));
         legend.innerHTML = `
-            <strong>Diagram key</strong>
-            <span><i class="lifetime-key__sample lifetime-key__sample--memory" aria-hidden="true"></i>Memory bytes</span>
-            <span><i class="lifetime-key__sample lifetime-key__sample--value" aria-hidden="true"></i>Values</span>
-            <span><i class="lifetime-key__sample lifetime-key__sample--binding" aria-hidden="true">a</i>Bindings</span>
-            <span><i class="lifetime-key__sample lifetime-key__sample--past" aria-hidden="true"></i>Earlier state</span>`;
+            <strong>${window.rsI18n.t("Diagram key")}</strong>
+            <span><i class="lifetime-key__sample lifetime-key__sample--memory" aria-hidden="true"></i>${window.rsI18n.t("Memory bytes")}</span>
+            <span><i class="lifetime-key__sample lifetime-key__sample--value" aria-hidden="true"></i>${window.rsI18n.t("Values")}</span>
+            <span><i class="lifetime-key__sample lifetime-key__sample--binding" aria-hidden="true">a</i>${window.rsI18n.t("Bindings")}</span>
+            <span><i class="lifetime-key__sample lifetime-key__sample--past" aria-hidden="true"></i>${window.rsI18n.t("Earlier state")}</span>`;
         return legend;
     };
     document.querySelectorAll('tabs.lifetimes > tab > panel > div').forEach(panel => {
@@ -621,7 +621,7 @@
         if (!explanation || !diagram || !caption) return;
 
         explanationNumber++;
-        const title = caption.textContent.trim() || `Diagram ${explanationNumber}`;
+        const title = caption.textContent.trim() || window.rsI18n.t("Diagram {number}", { number: explanationNumber });
         const explanationId = explanation.id || `lifetime-explanation-${explanationNumber}`;
         const buttonId = `lifetime-toggle-${explanationNumber}`;
         explanation.id = explanationId;
@@ -643,7 +643,7 @@
         titleNode.textContent = title;
         const actionNode = document.createElement('span');
         actionNode.className = 'lifetime-toggle__action';
-        actionNode.textContent = 'Show explanation';
+        actionNode.textContent = window.rsI18n.t("Show explanation");
         const iconNode = document.createElement('span');
         iconNode.className = 'lifetime-toggle__icon';
         iconNode.setAttribute('aria-hidden', 'true');
@@ -656,8 +656,8 @@
             explanation.classList.toggle('is-expanded', expanded);
             button.classList.toggle('is-expanded', expanded);
             button.setAttribute('aria-expanded', String(expanded));
-            button.setAttribute('aria-label', `${expanded ? 'Hide' : 'Show'} explanation for ${title}`);
-            actionNode.textContent = expanded ? 'Hide explanation' : 'Show explanation';
+            button.setAttribute('aria-label', window.rsI18n.t(expanded ? "Hide explanation for {title}" : "Show explanation for {title}", { title }));
+            actionNode.textContent = expanded ? window.rsI18n.t("Hide explanation") : window.rsI18n.t("Show explanation");
         });
     });
 

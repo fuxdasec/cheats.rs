@@ -1,21 +1,23 @@
+{% import "macros/i18n.html" as i18n %}
+{% set site = load_data(path="data/i18n.json") %}{% set locale = site.locales[lang] %}
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="{{ lang }}" dir="{{ locale.dir }}" data-home="{{ locale.home }}" data-source-route="/_print/"><head>
 <meta charset="utf-8"><meta name="robots" content="noindex, nofollow"><title>{{ page.title }}</title>
 <link rel="stylesheet" href="/main.css">
 </head><body class="day-mode"><div class="page"><div class="page__content"><main class="book-content">
 <h1 class="page-title">{{ page.title }}</h1>
 {% include "partials/legend.html" %}
-{% set home = get_section(path="_index.md") %}
+{% set home = get_section(path="_index.md", lang=lang) %}
 {% for subsection_path in home.subsections %}
     {% set category = get_section(path=subsection_path) %}
-    {% if category.title != "Misc" %}
-        {% if category.title == "Behind the Scenes" %}<magic>{% endif %}
-        {% if category.title != "Language Constructs" %}<h1 class="print-category">{{ category.title }}</h1>{{ category.content | safe }}{% endif %}
+    {% if category.relative_path is not starting_with("misc/") %}
+        {% if category.relative_path is starting_with("behind-the-scenes/") %}<magic>{% endif %}
+        {% if category.relative_path is not starting_with("language-constructs/") %}<h1 class="print-category">{{ category.title }}</h1>{{ category.content | safe }}{% endif %}
         {% for item in category.pages %}
             {% if item.extra.print %}
                 <section class="print-topic" data-topic="{{ item.extra.anchor }}">
                 {% set printed = item.content %}
-                {% if category.title == "Language Constructs" %}
+                {% if category.relative_path is starting_with("language-constructs/") %}
                     {% set printed = printed | replace(from="<h4", to="<h6") | replace(from="</h4>", to="</h6>") | replace(from="<h3", to="<h5") | replace(from="</h3>", to="</h5>") | replace(from="<h2", to="<h4") | replace(from="</h2>", to="</h4>") %}
                     <h3 id="{{ item.extra.anchor }}">{{ item.title }}</h3>
                 {% else %}
@@ -26,10 +28,10 @@
                 </section>
             {% endif %}
         {% endfor %}
-        {% if category.title == "Behind the Scenes" %}</magic>{% endif %}
-        {% if category.title != "Coding Guides" %}<hr>{% endif %}
+        {% if category.relative_path is starting_with("behind-the-scenes/") %}</magic>{% endif %}
+        {% if category.relative_path is not starting_with("coding-guides/") %}<hr>{% endif %}
     {% endif %}
 {% endfor %}
 </main>{% include "partials/footer.html" %}</div></div>
-<script src="/prism.js"></script><script src="/index.js"></script>
+{% include "partials/i18n.html" %}<script src="/prism.js"></script><script src="/index.js"></script>
 </body></html>

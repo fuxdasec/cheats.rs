@@ -1,1 +1,2 @@
-{% set home = get_section(path="_index.md") %}{% set sections = organisms::sections_menu(home=home) %}{{ organisms::navbar(sections=sections) }}
+
+{% set home = get_section(path="_index.md", lang=lang) %}{% set sections = organisms::sections_menu(home=home) %}{{ organisms::navbar(sections=sections) }}{{ i18n::switcher(id=identity.id) }}

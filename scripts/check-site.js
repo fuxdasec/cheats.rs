@@ -4,9 +4,11 @@ const path = require("path");
 
 const root = path.resolve(process.argv[2] || "public");
 const finalArtifact = process.argv.includes("--final");
+const site = require("../data/i18n.json");
+const expectedRoutes = Object.keys(site.routes).filter(route => !route.includes("/_print/"));
 const content = path.resolve("content");
 const categories = fs.readdirSync(content, { withFileTypes: true }).filter(entry => entry.isDirectory());
-const topics = categories.flatMap(category => fs.readdirSync(path.join(content, category.name)).filter(name => name.endsWith(".md") && name !== "_index.md"));
+const topics = categories.flatMap(category => fs.readdirSync(path.join(content, category.name)).filter(name => name.endsWith(".md") && name !== "_index.md" && !/\.[^.]+\.md$/.test(name)));
 assert.equal(categories.length, 8, "expected eight category sections");
 assert.equal(topics.length, 45, "expected 45 topic pages");
 
@@ -20,7 +22,7 @@ const htmlFiles = [];
 })(root);
 
 const published = htmlFiles.filter(filename => !filename.includes(`${path.sep}_print${path.sep}`));
-assert.equal(published.length, 56, "expected home, categories, topics, FAQ, and legal pages");
+assert.equal(published.length, expectedRoutes.length, "published route count matches translation manifest");
 if (finalArtifact) assert(!fs.existsSync(path.join(root, "_print")), "final artifact must not publish the print source");
 const titles = new Set();
 const descriptions = new Set();
@@ -30,11 +32,12 @@ const capture = (html, regex, message) => { const value = html.match(regex)?.[1]
 for (const filename of published) {
     const html = fs.readFileSync(filename, "utf8");
     const relative = path.relative(root, filename);
+    const language = capture(html, /<html[^>]*lang="([^" ]+)"/, `${relative}: language`);
     const title = capture(html, /<title>([^<]+)/, `${relative}: title`);
     const description = capture(html, /<meta name="description" content="([^"]+)"/, `${relative}: description`);
     const canonical = capture(html, /<link rel="canonical" href="([^"]+)"/, `${relative}: canonical`);
-    assert(!titles.has(title), `${relative}: duplicate title`); titles.add(title);
-    assert(!descriptions.has(description), `${relative}: duplicate description`); descriptions.add(description);
+    assert(!titles.has(language + title), `${relative}: duplicate title`); titles.add(language + title);
+    assert(!descriptions.has(language + description), `${relative}: duplicate description`); descriptions.add(language + description);
     assert.equal((html.match(/<h1(?:\s|>)/g) || []).length, 1, `${relative}: exactly one H1`);
     const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map(match => match[1]);
     assert.equal(new Set(ids).size, ids.length, `${relative}: duplicate IDs`);
@@ -48,19 +51,22 @@ for (const filename of published) {
     assert.equal(capture(html, /<meta property="og:image" content="([^"]+)"/, `${relative}: social image`), "https://cheats.rs/social-card.png", `${relative}: social image URL`);
     assert(html.includes('<meta property="og:image:width" content="1200">'), `${relative}: social image width`);
     const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(match => JSON.parse(match[1]));
-    if (route === "/") assert.deepEqual(schemas.map(schema => schema["@type"]), ["WebSite"], "home WebSite schema");
-    else if (!['/faq/', '/legal/'].includes(route)) assert.deepEqual(schemas.map(schema => schema["@type"]), ["BreadcrumbList"], `${relative}: breadcrumb schema`);
+    const originalRoute = site.pages[site.routes[route].id][site.default_language].url;
+    assert.equal(language, site.routes[route].lang, `${route}: language matches URL`);
+    if (originalRoute === "/") assert.deepEqual(schemas.map(schema => schema["@type"]), ["WebSite"], "home WebSite schema");
+    else if (!['/faq/', '/legal/'].includes(originalRoute)) assert.deepEqual(schemas.map(schema => schema["@type"]), ["BreadcrumbList"], `${relative}: breadcrumb schema`);
 }
 
 const sitemap = fs.readFileSync(path.join(root, "sitemap.xml"), "utf8");
-assert.equal((sitemap.match(/<loc>/g) || []).length, 56, "sitemap URL count");
+const sitemapRoutes = require("./sitemap").localRoutes(root);
+assert.deepEqual(sitemapRoutes.sort(), expectedRoutes.sort(), "sitemap covers exactly published translations");
 assert(!sitemap.includes("/_print/"), "print source excluded from sitemap");
 const robots = fs.readFileSync(path.join(root, "robots.txt"), "utf8");
 assert(robots.includes("Sitemap: https://cheats.rs/sitemap.xml"), "robots.txt advertises sitemap");
 for (const filename of published) {
     const relative = path.relative(root, filename);
     const route = relative === "index.html" ? "/" : `/${path.dirname(relative).split(path.sep).join("/")}/`;
-    assert(sitemap.includes(`<loc>https://cheats.rs${route}</loc>`), `sitemap missing ${route}`);
+    assert(sitemapRoutes.includes(route), `sitemap missing ${route}`);
 }
 
 const internalErrors = [];
@@ -68,7 +74,7 @@ for (const filename of htmlFiles) {
     const html = fs.readFileSync(filename, "utf8");
     for (const match of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
         const url = decode(match[1]);
-        if (!url.startsWith("/") || url.startsWith("//") || (!finalArtifact && url.startsWith("/dl/"))) continue;
+        if (!url.startsWith("/") || url.startsWith("//") || (!finalArtifact && url.includes("/dl/"))) continue;
         const [pathname, fragment] = url.split("#");
         let target = path.join(root, pathname);
         if (pathname.endsWith("/") || !path.extname(target)) target = path.join(target, "index.html");
@@ -96,7 +102,7 @@ for (const stylesheet of ["font-opensans.css", "font-firacode.css", "main.css"])
     }
 }
 const searchIndex = JSON.parse(fs.readFileSync(path.join(root, "search_index.en.json"), "utf8"));
-assert(Array.isArray(searchIndex) && searchIndex.length >= published.length, "native search index covers the published site");
+assert(Array.isArray(searchIndex) && searchIndex.length >= expectedRoutes.filter(route => site.routes[route].lang === "en").length, "native search index covers the published site");
 assert(searchIndex.every(item => item.title && item.path?.startsWith("/")), "search entries contain titles and local paths");
 assert(searchIndex.every(item => !item.path.startsWith("/_print/")), "print source is excluded from search");
 for (const route of ["data-structures", "references-pointers", "functions-behavior", "control-flow", "organizing-code", "type-aliases-and-casts", "macros-attributes"]) {
@@ -106,6 +112,23 @@ for (const route of ["data-structures", "references-pointers", "functions-behavi
 }
 for (const filename of ["js/theme.js", "js/nav.js", "js/search.js", "js/copy.js"]) {
     assert(fs.statSync(path.join(root, filename)).size > 100, `${filename}: interface behavior is present`);
+}
+for (const language of site.languages.filter(language => language.enabled)) {
+    const index = JSON.parse(fs.readFileSync(path.join(root, `search_index.${language.code}.json`), 'utf8'));
+    const expected = expectedRoutes.filter(route => site.routes[route].lang === language.code);
+    assert.deepEqual(index.map(item => new URL(item.path, site.base_url).pathname).sort(), [...expected].sort(), `${language.code}: isolated search index`);
+    if (finalArtifact) {
+        assert(!fs.existsSync(path.join(root, language.home, '_print')), `${language.code}: private print source removed`);
+        if (language.pdf) for (const format of ['a4', 'letter']) assert(fs.statSync(path.join(root, language.home, 'dl', `rust_cheat_sheet_${format}.pdf`)).size > 100_000, `${language.code}: ${format} PDF`);
+    }
+}
+for (const filename of published) {
+    const html = fs.readFileSync(filename, 'utf8');
+    for (const match of html.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)"/g)) {
+        const target = new URL(decode(match[2]));
+        assert(expectedRoutes.includes(target.pathname), `${filename}: alternate points to a published page`);
+        if (match[1] !== 'x-default') assert.equal(site.routes[target.pathname].lang, match[1]);
+    }
 }
 const socialCard = fs.readFileSync(path.join(root, "social-card.png"));
 assert(socialCard.length > 10_000, "social card is present and non-empty");

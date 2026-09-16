@@ -1,7 +1,7 @@
 {
   "name": "cheats.rs",
   "scripts": {
-    "posthtml": "cd public && npx posthtml -c ../.posthtmlrc && node ../scripts/postprocess.js",
+    "posthtml": "cd public && npx posthtml -c ../.posthtmlrc && node ../scripts/postprocess.js && node ../scripts/minify-assets.js",
     "pdf": "node ./scripts/pdf.js",
     "social-card": "node ./scripts/generate-social-card.js",
     "check:content": "node ./scripts/check-content.js",
@@ -9,10 +9,22 @@
     "check:site": "node ./scripts/check-site.js",
     "check:reading": "node ./scripts/check-reading.js",
     "check:a11y": "node ./scripts/check-a11y.js",
-    "check:lighthouse": "node ./scripts/check-lighthouse.js"
+    "check:lighthouse": "node ./scripts/check-lighthouse.js",
+    "i18n:add": "node scripts/i18n.js add",
+    "i18n:sync": "node scripts/i18n.js sync",
+    "i18n:status": "node scripts/i18n.js status",
+    "i18n:reviewed": "node scripts/i18n.js reviewed",
+    "i18n:prepare": "node scripts/i18n.js prepare",
+    "check:i18n": "node scripts/i18n.js check",
+    "build": "npm run i18n:prepare && zola build && npm run posthtml",
+    "dev": "node scripts/dev.js",
+    "test:i18n": "node --test scripts/i18n.test.js",
+    "check:i18n-browser": "node scripts/check-i18n-browser.js",
+    "verify": "node scripts/verify.js"
   },
   "private": true,
   "dependencies": {
+    "@iarna/toml": "2.2.5",
     "axe-core": "^4.10.2",
     "cssnano": "^5.1.14",
     "htmlnano": "^0.2.5",

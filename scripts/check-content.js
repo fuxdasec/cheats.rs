@@ -32,7 +32,7 @@ const files = [];
 for (const entry of fs.readdirSync(contentRoot, { withFileTypes: true })) {
     if (entry.isDirectory()) {
         for (const name of fs.readdirSync(path.join(contentRoot, entry.name))) {
-            if (name.endsWith(".md")) files.push(`${entry.name}/${name}`);
+            if (name.endsWith(".md") && !/\.[^.]+\.md$/.test(name)) files.push(`${entry.name}/${name}`);
         }
     } else if (["faq.md", "legal.md"].includes(entry.name)) {
         files.push(entry.name);

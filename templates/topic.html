@@ -1,13 +1,13 @@
-{% extends "base.html" %}{% import "macros/shell.html" as shell %}
-{% block title %}{{ page.extra.seo_title }} | {{ config.title }}{% endblock title %}{% block description %}{{ page.description }}{% endblock description %}{% block canonical %}{{ page.permalink }}{% endblock canonical %}
-{% block og_title %}{{ page.extra.seo_title }} | {{ config.title }}{% endblock og_title %}{% block og_description %}{{ page.description }}{% endblock og_description %}{% block og_url %}{{ page.permalink }}{% endblock og_url %}
-{% block twitter_title %}{{ page.extra.seo_title }} | {{ config.title }}{% endblock twitter_title %}{% block twitter_description %}{{ page.description }}{% endblock twitter_description %}
-{% block structured_data %}{% set category_path = page.ancestors | last %}{% set category = get_section(path=category_path) %}<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"{{ config.base_url }}/"},{"@type":"ListItem","position":2,"name":{{ category.title | json_encode() | safe }},"item":{{ category.permalink | json_encode() | safe }}},{"@type":"ListItem","position":3,"name":{{ page.title | json_encode() | safe }},"item":{{ page.permalink | json_encode() | safe }}}]}</script>{% endblock structured_data %}
+{% extends "base.html" %}{% import "macros/i18n.html" as i18n %}{% import "macros/shell.html" as shell %}
+{% block title %}{{ page.extra.seo_title }} | {{ i18n::t(key="Rust Language Cheat Sheet") }}{% endblock title %}{% block description %}{{ page.description }}{% endblock description %}{% block canonical %}{{ page.permalink }}{% endblock canonical %}
+{% block og_title %}{{ page.extra.seo_title }} | {{ i18n::t(key="Rust Language Cheat Sheet") }}{% endblock og_title %}{% block og_description %}{{ page.description }}{% endblock og_description %}{% block og_url %}{{ page.permalink }}{% endblock og_url %}
+{% block twitter_title %}{{ page.extra.seo_title }} | {{ i18n::t(key="Rust Language Cheat Sheet") }}{% endblock twitter_title %}{% block twitter_description %}{{ page.description }}{% endblock twitter_description %}
+{% block structured_data %}{% set category_path = page.ancestors | last %}{% set category = get_section(path=category_path) %}<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":{{ i18n::t(key="Home") | json_encode() | safe }},"item":"{{ config.base_url }}{{ locale.home }}"},{"@type":"ListItem","position":2,"name":{{ category.title | json_encode() | safe }},"item":{{ category.permalink | json_encode() | safe }}},{"@type":"ListItem","position":3,"name":{{ page.title | json_encode() | safe }},"item":{{ page.permalink | json_encode() | safe }}}]}</script>{% endblock structured_data %}
 {% block content %}
 {% set category_path = page.ancestors | last %}{% set category = get_section(path=category_path) %}
 {{ shell::crumbs(current=page.title, group=category.title, group_url=category.path) }}
-{% if category.title == "Behind the Scenes" %}<magic>{% endif %}
+{% if identity.id is starting_with("behind-the-scenes/") %}<magic>{% endif %}
 {{ shell::page_head(title=page.title, lead=page.description, id=page.extra.anchor) }}
-<div class="topic-layout{% if page.toc | length >= 2 %} topic-layout--with-toc{% endif %}">{% if page.toc | length >= 2 %}{{ shell::toc(items=page.toc) }}{% endif %}<div class="topic-body">{{ page.content | safe }}{{ shell::pager(previous=page.extra.previous, previous_title=page.extra.previous_title, next=page.extra.next, next_title=page.extra.next_title) }}</div></div>
-{% if category.title == "Behind the Scenes" %}</magic>{% endif %}
+<div class="topic-layout{% if page.toc | length >= 2 %} topic-layout--with-toc{% endif %}">{% if page.toc | length >= 2 %}{{ shell::toc(items=page.toc) }}{% endif %}<div class="topic-body">{{ page.content | safe }}{{ i18n::pager(id=identity.id) }}</div></div>
+{% if identity.id is starting_with("behind-the-scenes/") %}</magic>{% endif %}
 {% endblock content %}

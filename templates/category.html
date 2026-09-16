@@ -1,13 +1,13 @@
-{% extends "base.html" %}{% import "macros/shell.html" as shell %}
-{% block title %}{{ section.title }} | {{ config.title }}{% endblock title %}{% block description %}{{ section.description }}{% endblock description %}{% block canonical %}{{ section.permalink }}{% endblock canonical %}
-{% block og_title %}{{ section.title }} | {{ config.title }}{% endblock og_title %}{% block og_description %}{{ section.description }}{% endblock og_description %}{% block og_url %}{{ section.permalink }}{% endblock og_url %}
-{% block twitter_title %}{{ section.title }} | {{ config.title }}{% endblock twitter_title %}{% block twitter_description %}{{ section.description }}{% endblock twitter_description %}
-{% block structured_data %}<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"{{ config.base_url }}/"},{"@type":"ListItem","position":2,"name":{{ section.title | json_encode() | safe }},"item":{{ section.permalink | json_encode() | safe }}}]}</script>{% endblock structured_data %}
+{% extends "base.html" %}{% import "macros/i18n.html" as i18n %}{% import "macros/shell.html" as shell %}
+{% block title %}{{ section.title }} | {{ i18n::t(key="Rust Language Cheat Sheet") }}{% endblock title %}{% block description %}{{ section.description }}{% endblock description %}{% block canonical %}{{ section.permalink }}{% endblock canonical %}
+{% block og_title %}{{ section.title }} | {{ i18n::t(key="Rust Language Cheat Sheet") }}{% endblock og_title %}{% block og_description %}{{ section.description }}{% endblock og_description %}{% block og_url %}{{ section.permalink }}{% endblock og_url %}
+{% block twitter_title %}{{ section.title }} | {{ i18n::t(key="Rust Language Cheat Sheet") }}{% endblock twitter_title %}{% block twitter_description %}{{ section.description }}{% endblock twitter_description %}
+{% block structured_data %}<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":{{ i18n::t(key="Home") | json_encode() | safe }},"item":"{{ config.base_url }}{{ locale.home }}"},{"@type":"ListItem","position":2,"name":{{ section.title | json_encode() | safe }},"item":{{ section.permalink | json_encode() | safe }}}]}</script>{% endblock structured_data %}
 {% block content %}
 {{ shell::crumbs(current=section.title) }}
-{% if section.title == "Behind the Scenes" %}<magic>{% endif %}
+{% if identity.id == "behind-the-scenes/_index.md" %}<magic>{% endif %}
 {{ shell::page_head(title=section.title, lead=section.description, id=section.title | slugify) }}
 {{ section.content | safe }}
-<nav class="topic-index" aria-label="{{ section.title }} topics"><ul>{% for item in section.pages %}<li><a href="{{ item.path }}"><strong>{{ item.title }}</strong><span>{{ item.description }}</span></a></li>{% endfor %}</ul></nav>
-{% if section.title == "Behind the Scenes" %}</magic>{% endif %}
+<nav class="topic-index" aria-label="{{ section.title }}"><ul>{% for id in site.topics %}{% if site.pages[id][site.default_language].category == identity.id %}{% set variants = site.pages[id] %}{% if variants[lang] is defined and variants[lang].published %}{% set item = variants[lang] %}{% else %}{% set item = variants[site.default_language] %}{% endif %}<li><a href="{{ item.url }}"><strong>{{ item.title }}{% if item.url is not starting_with(locale.home) %} <small>({{ i18n::t(key="Read in English") }})</small>{% endif %}</strong><span>{{ item.description }}</span></a></li>{% endif %}{% endfor %}</ul></nav>
+{% if identity.id == "behind-the-scenes/_index.md" %}</magic>{% endif %}
 {% endblock content %}

@@ -1,20 +1,4 @@
+{% set site = load_data(path="data/i18n.json") %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="noindex">
-    <title>404 Not Found | Rust Language Cheat Sheet</title>
-    <link rel="icon" type="image/png" href="/favicon32.png">
-    <link rel="stylesheet" href="/main.css">
-    <script>(function(d){d.classList.add("js");try{var v=localStorage.getItem("rsds-theme");if(v==="light"||v==="dark")d.dataset.theme=v}catch(e){}})(document.documentElement);</script>
-</head>
-<body>
-    <main class="not-found">
-        <h1>Oh no ... ☹️</h1>
-        <p>This page does not exist.</p>
-        <p><a href="/">Return to the Rust Language Cheat Sheet</a>.</p>
-    </main>
-    <script src="/js/theme.js" defer></script>
-</body>
-</html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="robots" content="noindex"><title>404 | cheats.rs</title><link rel="icon" type="image/png" href="/favicon32.png"><link rel="stylesheet" href="/main.css"></head>
+<body><main class="not-found"><h1>404 ☹️</h1>{% for language in site.languages %}{% if language.enabled %}{% set catalog = load_data(path="i18n/" ~ language.code ~ ".json") %}<section data-not-found="{{ language.code }}" lang="{{ language.code }}" dir="{{ language.dir }}"><h2>{{ language.name }}</h2><p>{{ catalog.messages | get(key="This page does not exist.") }}</p><p><a href="{{ language.home }}">{{ catalog.messages | get(key="Return to the Rust Language Cheat Sheet") }}</a></p></section>{% endif %}{% endfor %}</main><script src="/js/not-found.js" defer></script><script src="/js/theme.js" defer></script></body></html>

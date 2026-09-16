@@ -1,5 +1,5 @@
-{% extends "base.html" %}{% import "macros/shell.html" as shell %}
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock title %}{% block description %}{{ page.description }}{% endblock description %}{% block canonical %}{{ page.permalink }}{% endblock canonical %}
-{% block og_title %}{{ page.title }} | {{ config.title }}{% endblock og_title %}{% block og_description %}{{ page.description }}{% endblock og_description %}{% block og_url %}{{ page.permalink }}{% endblock og_url %}
-{% block twitter_title %}{{ page.title }} | {{ config.title }}{% endblock twitter_title %}{% block twitter_description %}{{ page.description }}{% endblock twitter_description %}
-{% block content %}{{ shell::crumbs(current=page.title) }}{{ page.content | safe }}{% endblock content %}
+{% extends "base.html" %}{% import "macros/i18n.html" as i18n %}{% import "macros/shell.html" as shell %}
+{% block title %}{{ page.title }} | {{ i18n::t(key="Rust Language Cheat Sheet") }}{% endblock title %}{% block description %}{{ page.description }}{% endblock description %}{% block canonical %}{{ page.permalink }}{% endblock canonical %}
+{% block og_title %}{{ page.title }} | {{ i18n::t(key="Rust Language Cheat Sheet") }}{% endblock og_title %}{% block og_description %}{{ page.description }}{% endblock og_description %}{% block og_url %}{{ page.permalink }}{% endblock og_url %}
+{% block twitter_title %}{{ page.title }} | {{ i18n::t(key="Rust Language Cheat Sheet") }}{% endblock twitter_title %}{% block twitter_description %}{{ page.description }}{% endblock twitter_description %}
+{% block content %}{{ shell::crumbs(current=page.title) }}<div class="localized-content">{{ page.content | safe }}</div>{% endblock content %}

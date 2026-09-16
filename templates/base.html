@@ -1,15 +1,19 @@
-{% import "macros/atoms.html" as atoms %}{% import "macros/organisms.html" as organisms %}{% import "macros/shell.html" as shell %}
+{% import "macros/i18n.html" as i18n %}{% import "macros/atoms.html" as atoms %}{% import "macros/organisms.html" as organisms %}{% import "macros/shell.html" as shell %}
+{% set site = load_data(path="data/i18n.json") %}{% set locale = site.locales[lang] %}{% set identity = site.routes[current_path] %}{% set source_route = site.pages[identity.id][site.default_language].url %}
+
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="{{ lang }}" dir="{{ locale.dir }}" data-home="{{ locale.home }}" data-build-revision="_GITHASH_" data-source-route="{{ source_route }}"><head>
+{% for code, variant in site.pages[identity.id] %}{% if variant.published %}<link rel="alternate" hreflang="{{ code }}" href="{{ config.base_url }}{{ variant.url }}">{% endif %}{% endfor %}<link rel="alternate" hreflang="x-default" href="{{ config.base_url }}{{ source_route }}">
 <meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="{% block description %}{{ config.description }}{% endblock description %}">
-<title>{% block title %}{{ config.title }}{% endblock title %}</title>
+<title>{% block title %}{{ i18n::t(key="Rust Language Cheat Sheet") }}{% endblock title %}</title>
 <link rel="canonical" href="{% block canonical %}{{ config.base_url }}/{% endblock canonical %}">
-<meta property="og:type" content="website"><meta property="og:site_name" content="{{ config.title }}">
-<meta property="og:title" content="{% block og_title %}{{ config.title }}{% endblock og_title %}"><meta property="og:description" content="{% block og_description %}{{ config.description }}{% endblock og_description %}"><meta property="og:url" content="{% block og_url %}{{ config.base_url }}/{% endblock og_url %}"><meta property="og:image" content="{{ config.base_url }}/social-card.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Rust Language Cheat Sheet">
-<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{% block twitter_title %}{{ config.title }}{% endblock twitter_title %}"><meta name="twitter:description" content="{% block twitter_description %}{{ config.description }}{% endblock twitter_description %}"><meta name="twitter:image" content="{{ config.base_url }}/social-card.png"><meta name="twitter:image:alt" content="Rust Language Cheat Sheet">
+<meta property="og:type" content="website"><meta property="og:site_name" content="{{ i18n::t(key="Rust Language Cheat Sheet") }}">
+<meta property="og:title" content="{% block og_title %}{{ i18n::t(key="Rust Language Cheat Sheet") }}{% endblock og_title %}"><meta property="og:description" content="{% block og_description %}{{ config.description }}{% endblock og_description %}"><meta property="og:url" content="{% block og_url %}{{ config.base_url }}/{% endblock og_url %}"><meta property="og:image" content="{{ config.base_url }}/social-card.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="{{ i18n::t(key='Rust Language Cheat Sheet') }}">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{% block twitter_title %}{{ i18n::t(key="Rust Language Cheat Sheet") }}{% endblock twitter_title %}"><meta name="twitter:description" content="{% block twitter_description %}{{ config.description }}{% endblock twitter_description %}"><meta name="twitter:image" content="{{ config.base_url }}/social-card.png"><meta name="twitter:image:alt" content="{{ i18n::t(key='Rust Language Cheat Sheet') }}">
 <link rel="icon" type="image/png" href="/favicon32.png"><link rel="stylesheet" href="/main.css">
 <script>(function(d){d.classList.add("js");try{var v=localStorage.getItem("rsds-theme");if(!v){var old=localStorage.getItem("night-mode");if(old==="day"||old==="night"){v=old==="night"?"dark":"light";localStorage.setItem("rsds-theme",v)}}if(v==="light"||v==="dark")d.dataset.theme=v}catch(e){}})(document.documentElement);</script>
+{% include "partials/i18n.html" %}
 {% block structured_data %}{% endblock structured_data %}
 </head><body>
 {{ shell::skip_link() }}

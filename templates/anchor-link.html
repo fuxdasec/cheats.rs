@@ -1,1 +1,2 @@
-<sup id="target-{{id}}" class="target"><a href="#{{id}}" aria-label="Link to this section" title="Link to this section">#</a></sup>
+{% import "macros/i18n.html" as i18n %}
+<sup id="target-{{id}}" class="target"><a href="#{{id}}" aria-label="{{ i18n::t(key="Link to this section") }}" title="{{ i18n::t(key="Link to this section") }}">#</a></sup>

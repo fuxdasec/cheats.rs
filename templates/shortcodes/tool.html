@@ -1,8 +1,9 @@
+{% import "macros/i18n.html" as i18n %}
 <a href="{{url | safe}}">
     <div style="display:inline-block; margin-right: 30px; margin-bottom: 20px;">
 
         <div style="width:200px; height: 200px; background-image: linear-gradient(#00000005, #00000005);">
-            <img style="position: relative; z-index: -10000" alt="A preview image." src="{{src | safe}}"></img>
+            <img style="position: relative; z-index: -10000" alt="{{ i18n::t(key="A preview image.") }}" src="{{src | safe}}"></img>
 
         </div>
 

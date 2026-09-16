@@ -14,3 +14,6 @@ include_description = true
 include_content = true
 include_path = true
 index_format = "fuse_json"
+
+[languages.pt-BR]
+build_search_index = true

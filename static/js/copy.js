@@ -29,23 +29,23 @@
             button = document.createElement("button");
             button.type = "button";
             button.className = "copy-button";
-            button.textContent = "Copy";
+            button.textContent = window.rsI18n.t("Copy");
             wrapper.prepend(button);
         }
-        button.setAttribute("aria-label", `Copy code block ${index + 1}`);
+        button.setAttribute("aria-label", window.rsI18n.t("Copy code block {number}", { number: index + 1 }));
         let reset;
         button.addEventListener("click", async () => {
             try {
                 await copyText(code.textContent);
-                button.textContent = "Copied!";
-                button.setAttribute("aria-label", "Code copied");
+                button.textContent = window.rsI18n.t("Copied!");
+                button.setAttribute("aria-label", window.rsI18n.t("Code copied"));
             } catch (_) {
-                button.textContent = "Copy failed";
+                button.textContent = window.rsI18n.t("Copy failed");
             }
             clearTimeout(reset);
             reset = setTimeout(() => {
-                button.textContent = "Copy";
-                button.setAttribute("aria-label", `Copy code block ${index + 1}`);
+                button.textContent = window.rsI18n.t("Copy");
+                button.setAttribute("aria-label", window.rsI18n.t("Copy code block {number}", { number: index + 1 }));
             }, 1400);
         });
     });

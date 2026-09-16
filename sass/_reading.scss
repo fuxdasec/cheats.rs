@@ -281,3 +281,13 @@
     .page-title { text-align: center; font-size: 40px; }
     .diagram-scroll { display: contents; }
 }
+
+.language-switcher {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem 1rem;
+    justify-content: flex-end;
+    margin-block: .5rem 1rem;
+    font-size: .875rem;
+    a[aria-current="true"] { font-weight: 800; text-decoration-thickness: .15em; }
+}

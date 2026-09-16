@@ -1,1 +1,2 @@
-<a href="{{url}}" title="Third-party site (mainly used in conjunction with other symbols)."><sup>🔗</sup></a>
+{% import "macros/i18n.html" as i18n %}
+<a href="{{url}}" title="{{ i18n::t(key="Third-party site (mainly used in conjunction with other symbols).") }}"><sup>🔗</sup></a>

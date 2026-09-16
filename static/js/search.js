@@ -20,12 +20,12 @@
         } catch (_) { return "/"; }
     };
     const groupName = href => {
-        const slug = href.split("/").filter(Boolean)[0] || "Home";
-        return slug.split("-").map(word => word[0]?.toUpperCase() + word.slice(1)).join(" ");
+        const category = menu.querySelector(`[data-category-path="${CSS.escape(href)}"]`);
+        return category?.textContent || '';
     };
     const loadIndex = () => {
         if (!indexPromise) {
-            status.textContent = "Loading search…";
+            status.textContent = window.rsI18n.t("Loading search…");
             indexPromise = fetch(search.dataset.indexUrl)
                 .then(response => {
                     if (!response.ok) throw new Error(`Search index returned ${response.status}`);
@@ -48,24 +48,24 @@
         results.replaceChildren();
         const tokens = normalize(query).split(/\s+/).filter(Boolean);
         if (tokens.join("").length < 2) {
-            status.textContent = "Type at least two characters.";
+            status.textContent = window.rsI18n.t("Type at least two characters.");
             panel.classList.remove("is-searching");
             return;
         }
         const ranked = items.map(item => {
             const href = localHref(item.permalink || item.url || item.path);
-            if (href.startsWith("/_print/")) return null;
-            const title = item.title || "Untitled";
+            if (href.includes("/_print/")) return null;
+            const title = item.title || window.rsI18n.t("Untitled");
             const description = item.description || "";
             const body = item.body || item.content || "";
             const fields = [normalize(title), normalize(description), normalize(text(body))];
             if (!tokens.every(token => fields.some(field => field.includes(token)))) return null;
             const score = tokens.reduce((sum, token) => sum + (fields[0].includes(token) ? 10 : 0) + (fields[1].includes(token) ? 4 : 0) + (fields[2].includes(token) ? 1 : 0), 0);
             return { item, href, title, body, score };
-        }).filter(Boolean).sort((a, b) => b.score - a.score || a.title.localeCompare(b.title)).slice(0, 8);
+        }).filter(Boolean).sort((a, b) => b.score - a.score || a.title.localeCompare(b.title, window.rsI18n.lang)).slice(0, 8);
 
         panel.classList.add("is-searching");
-        status.textContent = ranked.length ? `${ranked.length} result${ranked.length === 1 ? "" : "s"}.` : "No results found.";
+        status.textContent = ranked.length ? window.rsI18n.t(ranked.length === 1 ? "{count} result." : "{count} results.", { count: ranked.length }) : window.rsI18n.t("No results found.");
         for (const hit of ranked) {
             const li = document.createElement("li");
             const link = document.createElement("a");
@@ -77,7 +77,7 @@
             title.textContent = hit.title;
             const group = document.createElement("span");
             group.className = "search-result__group";
-            group.textContent = groupName(hit.href);
+            group.textContent = hit.item.category || groupName(hit.href);
             const excerpt = document.createElement("span");
             excerpt.className = "search-result__snippet";
             excerpt.textContent = snippet(hit.body || hit.item.description, tokens[0]);
@@ -92,11 +92,11 @@
     input.addEventListener("input", () => {
         clearTimeout(timer);
         timer = setTimeout(() => loadIndex().then(items => render(items, input.value)).catch(() => {
-            status.textContent = "Search is temporarily unavailable.";
+            status.textContent = window.rsI18n.t("Search is temporarily unavailable.");
             results.replaceChildren();
         }), 80);
     });
-    menu.addEventListener("sections:open", () => loadIndex().then(() => { if (!input.value) status.textContent = "Search titles and page content."; }).catch(() => { status.textContent = "Search is temporarily unavailable. Try again."; }));
+    menu.addEventListener("sections:open", () => loadIndex().then(() => { if (!input.value) status.textContent = window.rsI18n.t("Search titles and page content."); }).catch(() => { status.textContent = window.rsI18n.t("Search is temporarily unavailable. Try again."); }));
     document.addEventListener("keydown", event => {
         const target = event.target;
         const editing = target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target?.isContentEditable;

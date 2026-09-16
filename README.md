@@ -18,9 +18,22 @@ Use cases, in order of priority:
 Built with [Zola](https://www.getzola.org/), the static site generator written in Rust. See [`.zolaversion`](.zolaversion) for the exact version the official site was deployed with. To develop locally download the indicated version, then run:
 
 ```
-zola serve
+npm install
+npm run dev
 ```
 
+
+## Languages
+
+English is available at `/`, and Brazilian Portuguese at `/pt-BR/`.
+To create a new language, run `npm run i18n:add -- fr`. Translate the generated
+Markdown files and interface catalog, then publish completed pages gradually.
+See [the translation guide](TRANSLATING.md) for the full workflow, review commands,
+terminology, tests and multilingual PDFs.
+
+Build the final site with `npm run build`; it prepares language metadata, runs
+Zola and postprocesses the output. Direct `zola build` or `zola serve` commands
+require `npm run i18n:prepare` first.
 
 ## Checking the generated site
 
@@ -49,6 +62,8 @@ npm run check:site -- public.clean --final
 ```
 
 The PDF command generates the A4 and Letter downloads and removes the private `/_print/` source before the final artifact check.
+Run `npm run verify` to reproduce the complete release validation in one command,
+including both browsers, accessibility, Lighthouse, multilingual search, and PDFs.
 
 # Contributing
 

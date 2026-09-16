@@ -5,8 +5,7 @@ const axe = require("axe-core");
 const base = process.argv[2] || "http://127.0.0.1:4173";
 
 (async () => {
-    const sitemap = await (await fetch(new URL("/sitemap.xml", base))).text();
-    const routes = [...sitemap.matchAll(/<loc>https:\/\/cheats\.rs([^<]*)<\/loc>/g)].map(match => match[1]);
+    const routes = await require('./sitemap').servedRoutes(base);
     const browser = await chromium.launch();
     const failures = [];
     try {

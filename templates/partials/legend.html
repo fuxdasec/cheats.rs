@@ -1,24 +1,25 @@
+{% import "macros/i18n.html" as i18n %}
 <blockquote class="legend"><symbol-legend class="short">
-Contains clickable links to <strong>The Book</strong>,<a href="https://doc.rust-lang.org/book/" title="See this topic in 'The Rust Programming Language'."><sup class="entry">BK</sup></a> <strong>Rust by Example</strong>,<a href="https://doc.rust-lang.org/stable/rust-by-example/" title="See this topic in 'Rust by Example'."><sup class="entry">EX</sup></a> <strong>Std Docs</strong>,<a href="https://doc.rust-lang.org/std" title="See this topic in 'The Rust Standard Library'."><sup class="mid">STD</sup></a> <strong>Nomicon</strong>,<a href="https://doc.rust-lang.org/nightly/nomicon/" title="See this topic in 'The Rustonomicon'."><sup class="expert">NOM</sup></a> and <strong>Reference</strong>.<a href="https://doc.rust-lang.org/reference/" title="See this topic in 'The Rust Reference'."><sup class="expert">REF</sup></a>
+{{ i18n::t(key="Contains clickable links to") }} <strong>The Book</strong>,<a href="https://doc.rust-lang.org/book/" title="{{ i18n::t(key="See this topic in 'The Rust Programming Language'.") }}"><sup class="entry">BK</sup></a> <strong>Rust by Example</strong>,<a href="https://doc.rust-lang.org/stable/rust-by-example/" title="{{ i18n::t(key="See this topic in 'Rust by Example'.") }}"><sup class="entry">EX</sup></a> <strong>{{ i18n::t(key="Std Docs") }}</strong>,<a href="https://doc.rust-lang.org/std" title="{{ i18n::t(key="See this topic in 'The Rust Standard Library'.") }}"><sup class="mid">STD</sup></a> <strong>Nomicon</strong>,<a href="https://doc.rust-lang.org/nightly/nomicon/" title="{{ i18n::t(key="See this topic in 'The Rustonomicon'.") }}"><sup class="expert">NOM</sup></a> {{ i18n::t(key="and") }} <strong>{{ i18n::t(key="Reference") }}</strong>.<a href="https://doc.rust-lang.org/reference/" title="{{ i18n::t(key="See this topic in 'The Rust Reference'.") }}"><sup class="expert">REF</sup></a>
 </symbol-legend><symbol-legend class="long"><twocolumn><column>
-<strong>Clickable symbols</strong><br><br>
+<strong>{{ i18n::t(key="Clickable symbols") }}</strong><br><br>
 <legend-symbol><a href="https://doc.rust-lang.org/book/"><sup class="entry">BK</sup></a></legend-symbol> <strong>The Book</strong>.<br>
 <legend-symbol><a href="https://doc.rust-lang.org/stable/rust-by-example/"><sup class="entry">EX</sup></a></legend-symbol> <strong>Rust by Example</strong>.<br>
-<legend-symbol><a href="https://doc.rust-lang.org/std"><sup class="mid">STD</sup></a></legend-symbol> <strong>Standard Library (API)</strong>.<br>
+<legend-symbol><a href="https://doc.rust-lang.org/std"><sup class="mid">STD</sup></a></legend-symbol> <strong>{{ i18n::t(key="Standard Library (API)") }}</strong>.<br>
 <legend-symbol><a href="https://doc.rust-lang.org/nightly/nomicon/"><sup class="expert">NOM</sup></a></legend-symbol> <strong>Nomicon</strong>.<br>
-<legend-symbol><a href="https://doc.rust-lang.org/reference/"><sup class="expert">REF</sup></a></legend-symbol> <strong>Reference</strong>.<br>
-<legend-symbol><a href="https://rust-lang.github.io/rfcs/"><sup class="expert">RFC</sup></a></legend-symbol> Official <strong>RFC</strong> documents.<br>
-<legend-symbol><a href="https://cheats.rs"><sup>🔗</sup></a></legend-symbol> The <strong>internet</strong>.<br>
-<legend-symbol><a href="#"><sup>↑</sup></a></legend-symbol> On this page, <strong>above</strong>.<br>
-<legend-symbol><a href="#"><sup>↓</sup></a></legend-symbol> On this page, <strong>below</strong>.
-</column><column><strong>Other symbols</strong><br><br>
-<legend-symbol><a class="tooltip" title="Largely deprecated or outdated; prefer modern alternative."><sup>🗑️</sup></a></legend-symbol> Largely <strong>deprecated</strong>.<br>
-<legend-symbol><a class="tooltip" title="Only valid in, or starting with, indicated Rust edition."><sup>'18</sup></a></legend-symbol> Has <strong>minimum edition</strong> requirement.<br>
-<legend-symbol><a class="tooltip" title="Unstable, needs 'nightly' compiler."><sup>🚧</sup></a></legend-symbol> Requires <strong>Rust nightly</strong> (or is incomplete).<br>
-<legend-symbol><a class="tooltip" title="Intentionally wrong example or pitfall."><sup>🛑</sup></a></legend-symbol> Intentionally <strong>wrong example</strong> or <strong>pitfall</strong>.<br>
-<legend-symbol><a class="tooltip" title="Esoteric, most people will not need to bother with this in years."><sup>🝖</sup></a></legend-symbol> Slightly <strong>esoteric</strong>, rarely used or advanced.<br>
-<legend-symbol><a class="tooltip" title="Has outstanding utility."><sup>🔥</sup></a></legend-symbol> Something with <strong>outstanding utility</strong>.<br>
-<legend-symbol><a class="tooltip" title="The parent item expands to ...">↪</a></legend-symbol> The parent item <strong>expands to</strong> &hellip;<br>
-<legend-symbol><a class="tooltip" title="Author's opinion."><sup>💬</sup></a></legend-symbol> <strong>Opinionated</strong>.<br>
-<legend-symbol><a class="tooltip" title="Is missing an authoritative source or needs a better explanation."><sup>?</sup></a></legend-symbol> Is <strong>missing good link</strong> or explanation.
-</column></twocolumn></symbol-legend><div class="legend-controls"><button type="button" class="legend-toggle" onclick="toggle_legend()" aria-expanded="false">Show symbol legend</button></div></blockquote>
+<legend-symbol><a href="https://doc.rust-lang.org/reference/"><sup class="expert">REF</sup></a></legend-symbol> <strong>{{ i18n::t(key="Reference") }}</strong>.<br>
+<legend-symbol><a href="https://rust-lang.github.io/rfcs/"><sup class="expert">RFC</sup></a></legend-symbol> {{ i18n::t(key="Official") }} <strong>RFC</strong> {{ i18n::t(key="documents.") }}<br>
+<legend-symbol><a href="https://cheats.rs"><sup>🔗</sup></a></legend-symbol> {{ i18n::t(key="The") }} <strong>{{ i18n::t(key="internet") }}</strong>.<br>
+<legend-symbol><a href="#"><sup>↑</sup></a></legend-symbol> {{ i18n::t(key="On this page,") }} <strong>{{ i18n::t(key="above") }}</strong>.<br>
+<legend-symbol><a href="#"><sup>↓</sup></a></legend-symbol> {{ i18n::t(key="On this page,") }} <strong>{{ i18n::t(key="below") }}</strong>.
+</column><column><strong>{{ i18n::t(key="Other symbols") }}</strong><br><br>
+<legend-symbol><span class="tooltip" title="{{ i18n::t(key="Largely deprecated or outdated; prefer modern alternative.") }}"><sup>🗑️</sup></span></legend-symbol> {{ i18n::t(key="Largely") }} <strong>{{ i18n::t(key="deprecated") }}</strong>.<br>
+<legend-symbol><span class="tooltip" title="{{ i18n::t(key="Only valid in, or starting with, indicated Rust edition.") }}"><sup>'18</sup></span></legend-symbol> {{ i18n::t(key="Has") }} <strong>{{ i18n::t(key="minimum edition") }}</strong> {{ i18n::t(key="requirement.") }}<br>
+<legend-symbol><span class="tooltip" title="{{ i18n::t(key="Unstable, needs 'nightly' compiler.") }}"><sup>🚧</sup></span></legend-symbol> {{ i18n::t(key="Requires") }} <strong>{{ i18n::t(key="Rust nightly") }}</strong> {{ i18n::t(key="(or is incomplete).") }}<br>
+<legend-symbol><span class="tooltip" title="{{ i18n::t(key="Intentionally wrong example or pitfall.") }}"><sup>🛑</sup></span></legend-symbol> {{ i18n::t(key="Intentionally") }} <strong>{{ i18n::t(key="wrong example") }}</strong> {{ i18n::t(key="or") }} <strong>{{ i18n::t(key="pitfall") }}</strong>.<br>
+<legend-symbol><span class="tooltip" title="{{ i18n::t(key="Esoteric, most people will not need to bother with this in years.") }}"><sup>🝖</sup></span></legend-symbol> {{ i18n::t(key="Slightly") }} <strong>{{ i18n::t(key="esoteric") }}</strong>{{ i18n::t(key=", rarely used or advanced.") }}<br>
+<legend-symbol><span class="tooltip" title="{{ i18n::t(key="Has outstanding utility.") }}"><sup>🔥</sup></span></legend-symbol> {{ i18n::t(key="Something with") }} <strong>{{ i18n::t(key="outstanding utility") }}</strong>.<br>
+<legend-symbol><span class="tooltip" title="{{ i18n::t(key="The parent item expands to ...") }}">↪</span></legend-symbol> {{ i18n::t(key="The parent item") }} <strong>{{ i18n::t(key="expands to") }}</strong> {{ i18n::t(key="&hellip;") }}<br>
+<legend-symbol><span class="tooltip" title="{{ i18n::t(key="Author's opinion.") }}"><sup>💬</sup></span></legend-symbol> <strong>{{ i18n::t(key="Opinionated") }}</strong>.<br>
+<legend-symbol><span class="tooltip" title="{{ i18n::t(key="Is missing an authoritative source or needs a better explanation.") }}"><sup>?</sup></span></legend-symbol> {{ i18n::t(key="Is") }} <strong>{{ i18n::t(key="missing good link") }}</strong> {{ i18n::t(key="or explanation.") }}
+</column></twocolumn></symbol-legend><div class="legend-controls"><button type="button" class="legend-toggle" onclick="toggle_legend()" aria-expanded="false">{{ i18n::t(key="Show symbol legend") }}</button></div></blockquote>

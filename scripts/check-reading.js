@@ -4,11 +4,9 @@ const { chromium, firefox } = require("playwright");
 const base = process.argv[2] || "http://127.0.0.1:4173";
 
 (async () => {
-    const sitemapResponse = await fetch(new URL("/sitemap.xml", base));
-    assert(sitemapResponse.ok, `served sitemap returned ${sitemapResponse.status}`);
-    const sitemap = await sitemapResponse.text();
-    const routes = [...sitemap.matchAll(/<loc>https:\/\/cheats\.rs([^<]*)<\/loc>/g)].map(match => match[1]);
-    assert.equal(routes.length, 56, "served sitemap contains every public route");
+    const routes = await require('./sitemap').servedRoutes(base);
+    const expected = Object.keys(require('../data/i18n.json').routes).filter(route => !route.includes('/_print/'));
+    assert.deepEqual([...routes].sort(), expected.sort(), 'served sitemap contains every published translation');
 
     for (const engine of [chromium, firefox]) {
         const browser = await engine.launch();
